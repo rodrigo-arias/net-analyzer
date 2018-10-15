@@ -1,17 +1,38 @@
 package sistema;
 
+import abb.ABB;
+import grafo.Grafo;
+import grafo.Punto;
 import sistema.Retorno.Resultado;
 
 public class Sistema implements ISistema {
+	
+	public Grafo red = null;
+	private ABB afiliados = null;
 
 	@Override
-	public Retorno inicializarSistema (int maxPuntos, Double coordX, Double coordY) {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+	public Retorno inicializarSistema(int maxPuntos, Double coordX, Double coordY) {
+		
+		if(maxPuntos <= 0) {
+			return new Retorno(Resultado.ERROR_1);
+		} else {
+			
+			this.red = new Grafo(maxPuntos);
+			Punto servidor = new Punto(coordX, coordY);
+			this.red.agregarVertice(servidor);
+			
+			return new Retorno(Resultado.OK);
+		}
 	}
-	
+
 	@Override
 	public Retorno destruirSistema() {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+		
+		this.red = null;
+		this.afiliados = null;
+		
+		System.gc();
+		return new Retorno(Resultado.OK);
 	}
 
 	@Override
@@ -65,7 +86,4 @@ public class Sistema implements ISistema {
 		return new Retorno(Resultado.NO_IMPLEMENTADA);
 	}
 
-	
-	
-	
 }
