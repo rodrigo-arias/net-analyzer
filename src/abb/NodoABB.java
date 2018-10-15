@@ -3,6 +3,7 @@ package abb;
 public class NodoABB {
 	
 	private int dato;
+	private Object objectoDatos;
 	private NodoABB izq;
 	private NodoABB der;
 	
@@ -13,8 +14,9 @@ public class NodoABB {
 		this.der = der;
 	}
 	
-	public NodoABB(int dato) {
+	public NodoABB(int dato, Object objectoDatos) {
 		this.dato = dato;
+		this.objectoDatos = objectoDatos;
 	}
 
 	//==================  Properties  =================//

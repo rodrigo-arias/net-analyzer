@@ -1,6 +1,7 @@
 package sistema;
 
 import abb.ABB;
+import dominio.Afiliado;
 import grafo.Grafo;
 import grafo.Punto;
 import sistema.Retorno.Resultado;
@@ -37,7 +38,13 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno registrarAfiliado(String cedula, String nombre, String email) {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+		Retorno ret = new Retorno();
+		ret.resultado = ret.resultado.OK;
+		
+		Afiliado nuevoAfiliado = new Afiliado(cedula, nombre, email);
+		//afiliados.insertar((int)cedula, (Object)nuevoAfiliado);
+		
+		return ret;
 	}
 
 	@Override

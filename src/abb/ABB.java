@@ -63,26 +63,26 @@ public class ABB {
 		}
 	}
 
-	public void insertar(int dato) {
+	public void insertar(int dato, Object objectoDatos) {
 		if (raiz == null) {
-			raiz = new NodoABB(dato);
+			raiz = new NodoABB(dato, objectoDatos);
 		} else {
-			insertarRec(dato, raiz);
+			insertarRec(dato, objectoDatos, raiz);
 		}
 	}
 
-	private void insertarRec(int dato, NodoABB nodo) {
+	private void insertarRec(int dato, Object objectoDatos, NodoABB nodo) {
 		if (dato < nodo.getDato()) {
 			if (nodo.getIzq() == null) {
-				nodo.setIzq(new NodoABB(dato));
+				nodo.setIzq(new NodoABB(dato, objectoDatos));
 			} else {
-				insertarRec(dato, nodo.getIzq());
+				insertarRec(dato, objectoDatos, nodo.getIzq());
 			}
 		} else if (dato > nodo.getDato()) {
 			if (nodo.getDer() == null) {
-				nodo.setDer(new NodoABB(dato));
+				nodo.setDer(new NodoABB(dato, objectoDatos));
 			} else {
-				insertarRec(dato, nodo.getDer());
+				insertarRec(dato, objectoDatos, nodo.getDer());
 			}
 		}
 	}
