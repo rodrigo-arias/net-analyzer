@@ -1,5 +1,7 @@
 package sistema;
 
+import java.util.regex.Pattern;
+
 import abb.ABB;
 import dominio.Afiliado;
 import grafo.Grafo;
@@ -40,9 +42,16 @@ public class Sistema implements ISistema {
 	public Retorno registrarAfiliado(String cedula, String nombre, String email) {
 		Retorno ret = new Retorno();
 		ret.resultado = ret.resultado.OK;
+		EmailValidator validadorEmail = new EmailValidator();
 		
-		Afiliado nuevoAfiliado = new Afiliado(cedula, nombre, email);
-		//afiliados.insertar((int)cedula, (Object)nuevoAfiliado);
+		if(Pattern.matches("[0-9]((.)[0-9]{3}){2}(-)[0-9]$", cedula)) {
+			if(validadorEmail.validate(email)) {
+				Afiliado nuevoAfiliado = new Afiliado(cedula, nombre, email);
+				//afiliados.insertar((int)cedula, (Object)nuevoAfiliado);
+			}else
+				ret.resultado = ret.resultado.ERROR_2;
+		}else
+			ret.resultado = ret.resultado.ERROR_1;
 		
 		return ret;
 	}
