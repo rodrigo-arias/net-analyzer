@@ -31,15 +31,20 @@ public class SistemaTest {
 
 	@Test
 	public void testRegistrarAfiliado() {
+		s.inicializarSistema(1, 1.0, 1.0);
 		assertEquals(Retorno.Resultado.OK, s.registrarAfiliado("5.103.782-1", "Nicolas", "nhg1612@gmail.com").resultado);
 		assertEquals(Retorno.Resultado.ERROR_1, s.registrarAfiliado("5.103.7821", "Nicolas", "nhg1612@gmail.com").resultado);
 		assertEquals(Retorno.Resultado.ERROR_2, s.registrarAfiliado("5.103.782-1", "Nicolas", "nhg1612gmail.com").resultado);
-		assertEquals(Retorno.Resultado.OK, s.registrarAfiliado("5.103.782-1", "Nicolas", "nhg1612@gmail.com").resultado);
+		assertEquals(Retorno.Resultado.ERROR_3, s.registrarAfiliado("5.103.782-1", "Nicolas", "nhg1612@gmail.com").resultado);
 	}
 
 	@Test
 	public void testBuscarAfiliado() {
-		fail("Not yet implemented");
+		s.inicializarSistema(1, 1.0, 1.0);
+		s.registrarAfiliado("5.103.782-1", "Nicolas", "nhg1612@gmail.com");
+		assertEquals(Retorno.Resultado.OK, s.buscarAfiliado("5.103.782-1").resultado);
+		assertEquals(Retorno.Resultado.ERROR_1, s.buscarAfiliado("5.103.7821").resultado);
+		assertEquals(Retorno.Resultado.ERROR_2, s.buscarAfiliado("5.111.777-8").resultado);
 	}
 
 	@Test

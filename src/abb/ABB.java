@@ -3,10 +3,10 @@ package abb;
 import dominio.Afiliado;
 
 public class ABB {
-	
+
 	private NodoABB raiz;
 
-	//==================  Construct  ==================//
+	// ================== Construct ==================//
 	public ABB() {
 		this.raiz = null;
 	}
@@ -15,12 +15,33 @@ public class ABB {
 		this.raiz = raiz;
 	}
 
-	//==================  Properties  =================//
+	// ================== Properties =================//
 	public NodoABB getRaiz() {
 		return raiz;
 	}
 
-	//===================  Methods  ==================//
+	// =================== Methods ==================//
+	public NodoABB buscar(String dato) {
+		return buscarRec(dato, raiz, 0);
+	}
+
+	private NodoABB buscarRec(String dato, NodoABB nodo, int recorridos) {
+		if (nodo == null)
+			return null;
+		else {
+			int compare = dato.compareTo(nodo.getDato().getCedula());
+
+			if (compare == 0) {
+				nodo.setRecorridos(recorridos);
+				return nodo;
+			} else if (compare < 0) {
+				return buscarRec(dato, nodo.getIzq(), recorridos++);
+			} else {
+				return buscarRec(dato, nodo.getDer(), recorridos++);
+			}
+		}
+	}
+
 	public boolean pertenece(String dato) {
 		return perteneceRec(dato, raiz);
 	}
