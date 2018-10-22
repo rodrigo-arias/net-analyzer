@@ -1,6 +1,7 @@
 package sistema;
 
 import abb.ABB;
+import dominio.Afiliado;
 import grafo.Grafo;
 import grafo.Punto;
 import sistema.Retorno.Resultado;
@@ -37,7 +38,26 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno registrarAfiliado(String cedula, String nombre, String email) {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+		
+		if(Utilidades.ValidarCI(cedula)) {
+			
+			if(Utilidades.ValidarEmail(email)) {
+				
+				// No existe un afiliado registrado con esa CI
+				if(buscarAfiliado(cedula).resultado == Resultado.ERROR_2) {
+					
+					Afiliado nuevo = new Afiliado(cedula, nombre, email);
+					
+					afiliados.insertar(nuevo);
+					
+					return new Retorno(Resultado.OK);
+				} else {
+					return new Retorno(Resultado.ERROR_3);
+				}
+			}else
+				return new Retorno(Resultado.ERROR_2);
+		}else
+			return new Retorno(Resultado.ERROR_1);
 	}
 
 	@Override
