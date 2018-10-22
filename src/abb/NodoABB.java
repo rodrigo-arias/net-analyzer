@@ -1,30 +1,29 @@
 package abb;
 
+import dominio.Afiliado;
+
 public class NodoABB {
 	
-	private int dato;
-	private Object objectoDatos;
+	private Afiliado dato;
 	private NodoABB izq;
 	private NodoABB der;
 	
 	//==================  Construct  ==================//
-	public NodoABB(int dato, NodoABB izq, NodoABB der) {
+	public NodoABB(Afiliado dato, NodoABB izq, NodoABB der) {
 		this.dato = dato;
 		this.izq = izq;
 		this.der = der;
 	}
-	
-	public NodoABB(int dato, Object objectoDatos) {
+	public NodoABB(Afiliado dato) {
 		this.dato = dato;
-		this.objectoDatos = objectoDatos;
 	}
-
+	
 	//==================  Properties  =================//
-	public int getDato() {
+	public Afiliado getDato() {
 		return dato;
 	}
 
-	public void setDato(int dato) {
+	public void setDato(Afiliado dato) {
 		this.dato = dato;
 	}
 

@@ -40,20 +40,20 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno registrarAfiliado(String cedula, String nombre, String email) {
-		Retorno ret = new Retorno();
-		ret.resultado = ret.resultado.OK;
-		EmailValidator validadorEmail = new EmailValidator();
 		
-		if(Pattern.matches("[0-9]((.)[0-9]{3}){2}(-)[0-9]$", cedula)) {
-			if(validadorEmail.validate(email)) {
-				Afiliado nuevoAfiliado = new Afiliado(cedula, nombre, email);
-				//afiliados.insertar((int)cedula, (Object)nuevoAfiliado);
+		if(Utilidades.ValidarCI(cedula)) {
+			if(Utilidades.ValidarEmail(email)) {
+				Retorno retBuscarAfiliado = this.buscarAfiliado(cedula);
+				if(retBuscarAfiliado.resultado == Resultado.ERROR_2) {
+					Afiliado nuevoAfiliado = new Afiliado(cedula, nombre, email);
+					afiliados.insertar(nuevoAfiliado);
+				}
 			}else
-				ret.resultado = ret.resultado.ERROR_2;
+				return new Retorno(Resultado.ERROR_2);
 		}else
-			ret.resultado = ret.resultado.ERROR_1;
+			return new Retorno(Resultado.ERROR_1);
 		
-		return ret;
+		return new Retorno(Resultado.OK);
 	}
 
 	@Override

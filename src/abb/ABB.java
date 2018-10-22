@@ -1,5 +1,7 @@
 package abb;
 
+import dominio.Afiliado;
+
 public class ABB {
 	
 	private NodoABB raiz;
@@ -19,17 +21,18 @@ public class ABB {
 	}
 
 	//===================  Methods  ==================//
-	public boolean pertenece(int dato) {
+	public boolean pertenece(String dato) {
 		return perteneceRec(dato, raiz);
 	}
 
-	private boolean perteneceRec(int dato, NodoABB nodo) {
+	private boolean perteneceRec(String dato, NodoABB nodo) {
 		if (nodo == null)
 			return false;
 		else {
-			if (dato == nodo.getDato()) {
+			int retCompareTo = dato.compareTo(nodo.getDato().getCedula());
+			if (retCompareTo == 0) {
 				return true;
-			} else if (dato < nodo.getDato()) {
+			} else if (retCompareTo < 0) {
 				return perteneceRec(dato, nodo.getIzq());
 			} else {
 				return perteneceRec(dato, nodo.getDer());
@@ -45,7 +48,7 @@ public class ABB {
 	private void listarAscendenteRec(NodoABB nodo) {
 		if (nodo != null) {
 			listarAscendenteRec(nodo.getIzq());
-			System.out.println(nodo.getDato());
+			System.out.println(nodo.getDato().getCedula());
 			listarAscendenteRec(nodo.getDer());
 		}
 	}
@@ -63,34 +66,35 @@ public class ABB {
 		}
 	}
 
-	public void insertar(int dato, Object objectoDatos) {
+	public void insertar(Afiliado nuevoAfiliado) {
 		if (raiz == null) {
-			raiz = new NodoABB(dato, objectoDatos);
+			raiz = new NodoABB(nuevoAfiliado);
 		} else {
-			insertarRec(dato, objectoDatos, raiz);
+			insertarRec(nuevoAfiliado, raiz);
 		}
 	}
 
-	private void insertarRec(int dato, Object objectoDatos, NodoABB nodo) {
-		if (dato < nodo.getDato()) {
+	private void insertarRec(Afiliado dato, NodoABB nodo) {
+		int retCompareTo = dato.getCedula().compareTo(nodo.getDato().getCedula());
+		if (retCompareTo < 0) {
 			if (nodo.getIzq() == null) {
-				nodo.setIzq(new NodoABB(dato, objectoDatos));
+				nodo.setIzq(new NodoABB(dato));
 			} else {
-				insertarRec(dato, objectoDatos, nodo.getIzq());
+				insertarRec(dato, nodo.getIzq());
 			}
-		} else if (dato > nodo.getDato()) {
+		} else if (retCompareTo > 0) {
 			if (nodo.getDer() == null) {
-				nodo.setDer(new NodoABB(dato, objectoDatos));
+				nodo.setDer(new NodoABB(dato));
 			} else {
-				insertarRec(dato, objectoDatos, nodo.getDer());
+				insertarRec(dato, nodo.getDer());
 			}
 		}
 	}
 
 	// Pre: !EsVacio()
-	public int borrarMinimo() {
+	public Afiliado borrarMinimo() {
 		if (raiz.getIzq() == null) {
-			int ret = raiz.getDato();
+			Afiliado ret = raiz.getDato();
 			raiz = raiz.getDer();
 			return ret;
 		} else {
@@ -98,9 +102,9 @@ public class ABB {
 		}
 	}
 
-	private int borrarMinimoRec(NodoABB nodo) {
+	private Afiliado borrarMinimoRec(NodoABB nodo) {
 		if (nodo.getIzq().getIzq() == null) {
-			int ret = nodo.getIzq().getDato();
+			Afiliado ret = nodo.getIzq().getDato();
 			nodo.setIzq(nodo.getIzq().getDer());
 			return ret;
 		} else {
@@ -109,8 +113,8 @@ public class ABB {
 	}
 
 	// Pre: Pertenece(dato)
-	public void borrar(int dato) {
-		if (raiz.getDato() == dato) {
+	public void borrar(Afiliado dato) {
+		if (raiz.getDato().getCedula().compareTo(dato.getCedula()) == 0) {
 			if (raiz.getIzq() == null && raiz.getDer() == null) { // Caso 1:
 																	// F�cil
 				raiz = null;
@@ -131,8 +135,9 @@ public class ABB {
 		}
 	}
 
-	private void borrarRec(int dato, NodoABB nodo) {
-		if (dato < nodo.getDato()) {
+	private void borrarRec(Afiliado dato, NodoABB nodo) {
+		int retCompareTo = dato.getCedula().compareTo(nodo.getDato().getCedula());
+		if (retCompareTo < 0) {
 			if (nodo.getIzq().getDato() == dato) {
 				if (nodo.getIzq().getIzq() == null && nodo.getIzq().getDer() == null) { // Caso
 																						// 1:
@@ -155,7 +160,7 @@ public class ABB {
 			} else {
 				borrarRec(dato, nodo.getIzq());
 			}
-		} else if (dato > nodo.getDato()) {
+		} else if (retCompareTo > 0) {
 			if (nodo.getDer().getDato() == dato) {
 				if (nodo.getDer().getIzq() == null && nodo.getDer().getDer() == null) { // Caso
 																						// 1:
