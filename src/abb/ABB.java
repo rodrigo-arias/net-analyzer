@@ -50,7 +50,7 @@ public class ABB {
 		if (nodo == null)
 			return false;
 		else {
-			int compare = dato.compareTo(nodo.getDato().getCedula());
+			int compare = dato.compareTo(nodo.getDato().toString());
 			if (compare == 0) {
 				return true;
 			} else if (compare < 0) {
@@ -69,7 +69,7 @@ public class ABB {
 	private void listarAscendenteRec(NodoABB nodo) {
 		if (nodo != null) {
 			listarAscendenteRec(nodo.getIzq());
-			System.out.println(nodo.getDato().getCedula());
+			System.out.println(nodo.getDato().toString());
 			listarAscendenteRec(nodo.getDer());
 		}
 	}
