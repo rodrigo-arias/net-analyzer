@@ -1,7 +1,5 @@
 package sistema;
 
-import java.util.regex.Pattern;
-
 import abb.ABB;
 import dominio.Afiliado;
 import grafo.Grafo;
@@ -42,18 +40,24 @@ public class Sistema implements ISistema {
 	public Retorno registrarAfiliado(String cedula, String nombre, String email) {
 		
 		if(Utilidades.ValidarCI(cedula)) {
+			
 			if(Utilidades.ValidarEmail(email)) {
-				Retorno retBuscarAfiliado = this.buscarAfiliado(cedula);
-				if(retBuscarAfiliado.resultado == Resultado.ERROR_2) {
-					Afiliado nuevoAfiliado = new Afiliado(cedula, nombre, email);
-					afiliados.insertar(nuevoAfiliado);
+				
+				// No existe un afiliado registrado con esa CI
+				if(buscarAfiliado(cedula).resultado == Resultado.ERROR_2) {
+					
+					Afiliado nuevo = new Afiliado(cedula, nombre, email);
+					
+					afiliados.insertar(nuevo);
+					
+					return new Retorno(Resultado.OK);
+				} else {
+					return new Retorno(Resultado.ERROR_3);
 				}
 			}else
 				return new Retorno(Resultado.ERROR_2);
 		}else
 			return new Retorno(Resultado.ERROR_1);
-		
-		return new Retorno(Resultado.OK);
 	}
 
 	@Override

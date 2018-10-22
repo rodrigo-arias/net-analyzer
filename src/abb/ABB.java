@@ -29,10 +29,10 @@ public class ABB {
 		if (nodo == null)
 			return false;
 		else {
-			int retCompareTo = dato.compareTo(nodo.getDato().getCedula());
-			if (retCompareTo == 0) {
+			int compare = dato.compareTo(nodo.getDato().getCedula());
+			if (compare == 0) {
 				return true;
-			} else if (retCompareTo < 0) {
+			} else if (compare < 0) {
 				return perteneceRec(dato, nodo.getIzq());
 			} else {
 				return perteneceRec(dato, nodo.getDer());
@@ -66,23 +66,23 @@ public class ABB {
 		}
 	}
 
-	public void insertar(Afiliado nuevoAfiliado) {
+	public void insertar(Afiliado nuevo) {
 		if (raiz == null) {
-			raiz = new NodoABB(nuevoAfiliado);
+			raiz = new NodoABB(nuevo);
 		} else {
-			insertarRec(nuevoAfiliado, raiz);
+			insertarRec(nuevo, raiz);
 		}
 	}
 
 	private void insertarRec(Afiliado dato, NodoABB nodo) {
-		int retCompareTo = dato.getCedula().compareTo(nodo.getDato().getCedula());
-		if (retCompareTo < 0) {
+		int compare = dato.getCedula().compareTo(nodo.getDato().getCedula());
+		if (compare < 0) {
 			if (nodo.getIzq() == null) {
 				nodo.setIzq(new NodoABB(dato));
 			} else {
 				insertarRec(dato, nodo.getIzq());
 			}
-		} else if (retCompareTo > 0) {
+		} else if (compare > 0) {
 			if (nodo.getDer() == null) {
 				nodo.setDer(new NodoABB(dato));
 			} else {
@@ -136,8 +136,8 @@ public class ABB {
 	}
 
 	private void borrarRec(Afiliado dato, NodoABB nodo) {
-		int retCompareTo = dato.getCedula().compareTo(nodo.getDato().getCedula());
-		if (retCompareTo < 0) {
+		int compare = dato.getCedula().compareTo(nodo.getDato().getCedula());
+		if (compare < 0) {
 			if (nodo.getIzq().getDato() == dato) {
 				if (nodo.getIzq().getIzq() == null && nodo.getIzq().getDer() == null) { // Caso
 																						// 1:
@@ -160,7 +160,7 @@ public class ABB {
 			} else {
 				borrarRec(dato, nodo.getIzq());
 			}
-		} else if (retCompareTo > 0) {
+		} else if (compare > 0) {
 			if (nodo.getDer().getDato() == dato) {
 				if (nodo.getDer().getIzq() == null && nodo.getDer().getDer() == null) { // Caso
 																						// 1:
