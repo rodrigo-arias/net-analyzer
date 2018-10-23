@@ -55,6 +55,15 @@ public class Grafo {
 		matAdy[posOrigen][posDestino].setExiste(true);
 		matAdy[posOrigen][posDestino].setValor(peso);
 	}
+	
+	public void modificarArista(Double origenX, Double origenY, Double destinoX, Double destinoY, int peso) {
+		int posOrigen = posVerticeCoord(origenX, origenY);
+		int posDestino = posVerticeCoord(destinoX, destinoY);
+		
+		if(matAdy[posOrigen][posDestino].isExiste()) {
+			matAdy[posOrigen][posDestino].setValor(peso);
+		}		
+	}
 
 	public boolean esLleno() {
 		return cantidad == tope;
@@ -63,6 +72,13 @@ public class Grafo {
 	private int posVertice(Punto ver) {
 		for (int i = 0; i < tope; i++)
 			if (ver.equals(vertices[i]))
+				return i;
+		return -1;
+	}
+	
+	private int posVerticeCoord(Double coordX, Double coordY) {
+		for (int i = 0; i < tope; i++)
+			if (vertices[i].getCoordX() == coordX && vertices[i].getCoordY() == coordY)
 				return i;
 		return -1;
 	}

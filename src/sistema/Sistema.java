@@ -100,7 +100,18 @@ public class Sistema implements ISistema {
 	@Override
 	public Retorno modificarTramo(Double coordXi, Double coordYi, Double coordXf, Double coordYf,
 			int nuevoValorPerdidaCalidad) {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+		Punto posOrigen = new Punto(coordXi, coordYi);
+		Punto posDestino = new Punto(coordXf, coordYf);
+		
+		if(nuevoValorPerdidaCalidad >= 1) {
+			if(this.red.existeArista(posOrigen, posDestino)) {
+				this.red.modificarArista(coordXi, coordYi, coordXf, coordYf, nuevoValorPerdidaCalidad);
+				return new Retorno(Resultado.OK);
+			}else
+				return new Retorno(Resultado.ERROR_2);
+		}else
+			return new Retorno(Resultado.ERROR_1);
+		
 	}
 
 	@Override
