@@ -15,10 +15,12 @@ public class SistemaTest {
 	@Before
 	public void set() throws Exception {
 		s = new Sistema();
+		s.inicializarSistema(1, 1.0, 1.0);
 	}
 
 	@Test
 	public void testInicializarSistema() {
+		s.destruirSistema();
 		assertEquals(Retorno.Resultado.OK, s.inicializarSistema(1, 1.0, 1.0).resultado);
 		assertEquals(Retorno.Resultado.ERROR_1, s.inicializarSistema(0, 1.0, 1.0).resultado);
 		assertEquals(Retorno.Resultado.ERROR_1, s.inicializarSistema(-1, 1.0, 1.0).resultado);
@@ -31,7 +33,6 @@ public class SistemaTest {
 
 	@Test
 	public void testRegistrarAfiliado() {
-		s.inicializarSistema(1, 1.0, 1.0);
 		assertEquals(Retorno.Resultado.OK, s.registrarAfiliado("5.103.782-1", "Nicolas Hernandez", "nhg1612@gmail.com").resultado);
 		assertEquals(Retorno.Resultado.ERROR_1, s.registrarAfiliado("5.103.7821", "Nicolas Hernandez", "nhg1612@gmail.com").resultado);
 		assertEquals(Retorno.Resultado.ERROR_2, s.registrarAfiliado("5.103.782-1", "Nicolas Hernandez", "nhg1612gmail.com").resultado);
@@ -40,7 +41,6 @@ public class SistemaTest {
 
 	@Test
 	public void testBuscarAfiliado() {
-		s.inicializarSistema(1, 1.0, 1.0);
 		s.registrarAfiliado("5.103.782-1", "Nicolas Hernandez", "nhg1612@gmail.com");
 		assertEquals(Retorno.Resultado.OK, s.buscarAfiliado("5.103.782-1").resultado);
 		assertEquals(Retorno.Resultado.ERROR_1, s.buscarAfiliado("5.103.7821").resultado);
@@ -49,7 +49,6 @@ public class SistemaTest {
 
 	@Test
 	public void testListarAfiliados() {
-		s.inicializarSistema(1, 1.0, 1.0);
 		s.registrarAfiliado("5.103.782-1", "Nicolas Hernandez", "nhg1612@gmail.com");
 		s.registrarAfiliado("5.111.777-8", "Rodrigo Arias", "rodrigoa@gmail.com");
 		assertEquals(Retorno.Resultado.OK, s.listarAfiliados().resultado);
