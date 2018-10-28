@@ -22,10 +22,11 @@ public class Sistema implements ISistema {
 			return new Retorno(Resultado.ERROR_1);
 		} else {
 
-			this.red = new Grafo(maxPuntos);
-			this.afiliados = new ABB();
+			red = new Grafo(maxPuntos);
+			afiliados = new ABB();
+
 			Punto servidor = new Punto(coordX, coordY, new Servidor());
-			this.red.agregarVertice(servidor);
+			red.agregarVertice(servidor);
 
 			return new Retorno(Resultado.OK);
 		}
@@ -133,7 +134,23 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno registrarTramo(Double coordXi, Double coordYi, Double coordXf, Double coordYf, int perdidaCalidad) {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+
+		if (perdidaCalidad >= 1) {
+			Punto origen = red.obtenerVertice(coordXi, coordYi);
+			Punto destino = red.obtenerVertice(coordXf, coordYf);
+
+			if (origen != null && destino != null) {
+				if (!red.existeArista(origen, destino)) {
+
+					red.agregarArista(origen, destino, perdidaCalidad);
+
+					return new Retorno(Resultado.OK);
+				} else
+					return new Retorno(Resultado.ERROR_3);
+			} else
+				return new Retorno(Resultado.ERROR_2);
+		} else
+			return new Retorno(Resultado.ERROR_1);
 	}
 
 	@Override
