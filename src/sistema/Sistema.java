@@ -3,6 +3,7 @@ package sistema;
 import abb.ABB;
 import abb.NodoABB;
 import dominio.Afiliado;
+import dominio.Servidor;
 import grafo.Grafo;
 import grafo.Punto;
 import sistema.Retorno.Resultado;
@@ -21,7 +22,7 @@ public class Sistema implements ISistema {
 
 			this.red = new Grafo(maxPuntos);
 			this.afiliados = new ABB();
-			Punto servidor = new Punto(coordX, coordY);
+			Punto servidor = new Punto(coordX, coordY, new Servidor());
 			this.red.agregarVertice(servidor);
 
 			return new Retorno(Resultado.OK);
@@ -99,17 +100,19 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno modificarTramo(Double coordXi, Double coordYi, Double coordXf, Double coordYf,
-		int nuevoValorPerdidaCalidad) {
-		
-		Punto origen = new Punto(coordXi, coordYi);
-		Punto destino = new Punto(coordXf, coordYf);
+			int nuevoValorPerdidaCalidad) {
 
 		if (nuevoValorPerdidaCalidad >= 1) {
-			if (red.existeArista(origen, destino)) {
-				
+
+			Punto origen = red.obtenerPunto(coordXi, coordYi);
+			Punto destino = red.obtenerPunto(coordXf, coordYf);
+
+			if (origen != null && destino != null && red.existeArista(origen, destino)) {
+
 				red.modificarArista(coordXi, coordYi, coordXf, coordYf, nuevoValorPerdidaCalidad);
-				
+
 				return new Retorno(Resultado.OK);
+
 			} else
 				return new Retorno(Resultado.ERROR_2);
 		} else

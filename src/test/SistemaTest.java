@@ -51,6 +51,7 @@ public class SistemaTest {
 	public void testListarAfiliados() {
 		s.registrarAfiliado("5.103.782-1", "Nicolas Hernandez", "nhg1612@gmail.com");
 		s.registrarAfiliado("5.111.777-8", "Rodrigo Arias", "rodrigoa@gmail.com");
+		s.registrarAfiliado("4.403.120-5", "Sebastían Fernandez", "sebita@nacional.com");
 		assertEquals(Retorno.Resultado.OK, s.listarAfiliados().resultado);
 	}
 
