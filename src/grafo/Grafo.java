@@ -24,26 +24,7 @@ public class Grafo {
 
 	}
 	
-	//==================  Properties  =================//
-	public Punto[] getVertices() {
-		return vertices;
-	}
-
-	public int getTope() {
-		return tope;
-	}
-
-	public int getCantidad() {
-		return cantidad;
-	}	
-	
 	//===================  Methods  ==================//
-	public Punto obtenerPunto(double coordX, double coordY) {
-		
-		int pos = posVerticeCoord(coordX, coordY);
-		
-		return (pos != -1) ? vertices[pos] : null;
-	}
 	
 	private int posOcupada() {
 		for (int i = 0; i < tope; i++)
@@ -96,7 +77,7 @@ public class Grafo {
 		return -1;
 	}
 	
-	public int posVerticeCoord(Double coordX, Double coordY) {
+	private int posVerticeCoord(Double coordX, Double coordY) {
 		for (int i = 0; i < tope; i++)
 			if (vertices[i].getCoordX() == coordX && vertices[i].getCoordY() == coordY)
 				return i;
@@ -105,6 +86,13 @@ public class Grafo {
 
 	public boolean existeVertice(Punto ver) {
 		return posVertice(ver) != -1;
+	}
+	
+	public Punto obtenerVertice(double coordX, double coordY) {
+		
+		int pos = posVerticeCoord(coordX, coordY);
+		
+		return (pos != -1) ? vertices[pos] : null;
 	}
 
 	public boolean existeArista(Punto origen, Punto destino) {

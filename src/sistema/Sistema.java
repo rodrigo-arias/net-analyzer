@@ -3,6 +3,8 @@ package sistema;
 import abb.ABB;
 import abb.NodoABB;
 import dominio.Afiliado;
+import dominio.Canalera;
+import dominio.Nodo;
 import dominio.Servidor;
 import grafo.Grafo;
 import grafo.Punto;
@@ -85,12 +87,48 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno registrarCanalera(String chipid, String CIafiliado, Double coordX, Double coordY) {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+
+		if (!red.esLleno()) {
+
+			if (red.obtenerVertice(coordX, coordY) != null) {
+
+				if (buscarAfiliado(CIafiliado).resultado != Resultado.OK) {
+
+					Canalera canalera = new Canalera(chipid, CIafiliado);
+					Punto nuevo = new Punto(coordX, coordY, canalera);
+
+					red.agregarVertice(nuevo);
+
+					return new Retorno(Resultado.OK);
+				} else
+					return new Retorno(Resultado.ERROR_3);
+
+			} else
+				return new Retorno(Resultado.ERROR_2);
+
+		} else
+			return new Retorno(Resultado.ERROR_1);
 	}
 
 	@Override
 	public Retorno registrarNodo(String nodoid, Double coordX, Double coordY) {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+
+		if (!red.esLleno()) {
+
+			if (red.obtenerVertice(coordX, coordY) != null) {
+
+				Nodo nodo = new Nodo(nodoid);
+				Punto nuevo = new Punto(coordX, coordY, nodo);
+
+				red.agregarVertice(nuevo);
+
+				return new Retorno(Resultado.OK);
+
+			} else
+				return new Retorno(Resultado.ERROR_2);
+
+		} else
+			return new Retorno(Resultado.ERROR_1);
 	}
 
 	@Override
@@ -104,8 +142,8 @@ public class Sistema implements ISistema {
 
 		if (nuevoValorPerdidaCalidad >= 1) {
 
-			Punto origen = red.obtenerPunto(coordXi, coordYi);
-			Punto destino = red.obtenerPunto(coordXf, coordYf);
+			Punto origen = red.obtenerVertice(coordXi, coordYi);
+			Punto destino = red.obtenerVertice(coordXf, coordYf);
 
 			if (origen != null && destino != null && red.existeArista(origen, destino)) {
 
