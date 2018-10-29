@@ -85,23 +85,28 @@ public class SistemaTest {
 
 	@Test
 	public void testRegistrarTramo() {
-		
 		s.destruirSistema();
 		s.inicializarSistema(10, 1.0, 2.0);
 		s.registrarNodo("N123", 3.0, 4.0);
 		s.registrarNodo("N235", 43.0, 2.0);
-		
+
 		assertEquals(Retorno.Resultado.ERROR_1, s.registrarTramo(3.0, 4.0, 43.0, 2.0, -3).resultado);
 		assertEquals(Retorno.Resultado.ERROR_2, s.registrarTramo(4.0, 4.0, 43.0, 2.0, 2).resultado);
 		assertEquals(Retorno.Resultado.OK, s.registrarTramo(3.0, 4.0, 43.0, 2.0, 2).resultado);
 		assertEquals(Retorno.Resultado.ERROR_3, s.registrarTramo(3.0, 4.0, 43.0, 2.0, 2).resultado);
-		
 	}
 
 	@Test
 	public void testModificarTramo() {
-		// Falta registrar tramo para poder testear
-		fail("Not yet implemented");
+		s.destruirSistema();
+		s.inicializarSistema(10, 1.0, 2.0);
+		s.registrarNodo("N123", 3.0, 4.0);
+		s.registrarNodo("N235", 43.0, 2.0);
+		s.registrarTramo(3.0, 4.0, 43.0, 2.0, 2);
+		
+		assertEquals(Retorno.Resultado.ERROR_1, s.modificarTramo(3.0, 4.0, 43.0, 2.0, -1).resultado);
+		assertEquals(Retorno.Resultado.ERROR_2, s.modificarTramo(3.0, 4.0, 22.0, 2.0, 3).resultado);
+		assertEquals(Retorno.Resultado.OK, s.modificarTramo(3.0, 4.0, 43.0, 2.0, 3).resultado);
 	}
 
 	@Test
