@@ -112,7 +112,9 @@ public class Sistema implements ISistema {
 			//se llama a la ejecución de dijkstra
 			int camino = this.red.dijkstra(origen, destino);
 			if(camino > 0) {
-				return new Retorno(Resultado.OK);
+				Retorno ret = new Retorno(Resultado.OK);
+				ret.valorEntero = camino;
+				return ret;
 			}else
 				return new Retorno(Resultado.ERROR_2);
 		}else
