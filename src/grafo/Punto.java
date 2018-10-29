@@ -1,9 +1,12 @@
 package grafo;
 
-public class Punto {
+import dominio.Nodo;
+
+public class Punto<T> {
 
 	private double coordX;
 	private double coordY;
+	private T elemento;
 
 	//==================  Construct  ==================//
 	public Punto(double coordX, double coordY) {
@@ -26,6 +29,14 @@ public class Punto {
 
 	public void setCoordY(double coordY) {
 		this.coordY = coordY;
+	}
+	
+	public <T> T getElemento() {
+		return (T) elemento;
+	}
+
+	public void setNodo(T elemento) {
+		this.elemento = elemento;
 	}
 
 	//===================  Methods  ==================//

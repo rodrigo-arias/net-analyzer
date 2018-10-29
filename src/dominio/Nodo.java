@@ -1,5 +1,7 @@
 package dominio;
 
-public class Nodo {
+import cola.Cola;
 
+public class Nodo {
+	
 }

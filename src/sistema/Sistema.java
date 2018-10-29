@@ -105,7 +105,18 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno calidadCanalera(Double coordX, Double coordY) {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+		if(this.red.existeVertice(coordX, coordY)) {			
+			//el origen siempre es 1,1 porque es siempre desde el servidor
+			Punto origen = new Punto(1, 1);
+			Punto destino = new Punto(coordX, coordY);
+			//se llama a la ejecución de dijkstra
+			int camino = this.red.dijkstra(origen, destino);
+			if(camino > 0) {
+				return new Retorno(Resultado.OK);
+			}else
+				return new Retorno(Resultado.ERROR_2);
+		}else
+			return new Retorno(Resultado.ERROR_1);
 	}
 
 	@Override

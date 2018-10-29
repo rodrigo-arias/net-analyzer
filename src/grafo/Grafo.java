@@ -1,6 +1,7 @@
 package grafo;
 
 import cola.Cola;
+import dominio.Canalera;
 
 public class Grafo {
 
@@ -68,6 +69,11 @@ public class Grafo {
 	}
 
 	public boolean existeVertice(Punto ver) {
+		return posVertice(ver) != -1;
+	}
+	
+	public boolean existeVertice(Double coordX, Double coordY) {
+		Punto ver = new Punto(coordX, coordY);
 		return posVertice(ver) != -1;
 	}
 
@@ -152,4 +158,66 @@ public class Grafo {
 			}
 		}
 	}
+	
+	public int dijkstra(Punto origen, Punto destino)
+	{
+		int posO = posVertice(origen);
+		int posD = posVertice(destino);
+		
+		int[] dist = new int[tope];
+		int[] ant = new int[tope];
+		boolean[] vis = new boolean[tope];
+		
+		for (int i = 0; i < tope; i++){
+			ant[i] = -1;
+			dist[i] = Integer.MAX_VALUE;
+		}
+		
+		dijkstraInterno(posO, dist, ant, vis);
+		
+		return dist[posD];
+	}
+
+	private void dijkstraInterno(int posO, int[] dist, int[] ant, boolean[] vis) {
+		dist[posO] = 0;
+		vis[posO] = true;
+		
+		for (int i = 0; i < tope; i++) {
+			if(matAdy[posO][i].isExiste())
+			{
+				dist[i] = matAdy[posO][i].getValor();
+				ant[i] = posO;
+			}
+		}
+		
+		for (int k = 1; k < tope; k++) {
+			int posCand = -1;
+			int min = Integer.MAX_VALUE;
+			for (int i = 0; i < tope; i++) {
+				if(!vis[i] && dist[i] < min && (this.vertices[i].getElemento() instanceof Canalera))
+				{
+					min = dist[i];
+					posCand = i;
+				}
+			}
+			
+			if(posCand == -1)
+				return;
+			
+			vis[posCand] = true;
+			
+			for (int i = 0; i < tope; i++) {
+				if(!vis[i] && matAdy[posCand][i].isExiste())
+				{
+					int sumaDist = dist[posCand] + matAdy[posCand][i].getValor();
+					if(sumaDist < dist[i])
+					{
+						dist[i] = sumaDist;
+						ant[i] = posCand;						
+					}
+				}
+			}
+		}
+	}
+	
 }
