@@ -70,7 +70,7 @@ public class Sistema implements ISistema {
 	public Retorno buscarAfiliado(String CI) {
 
 		if (Utilidades.ValidarCI(CI)) {
-			NodoABB afiliado = this.afiliados.buscar(CI);
+			NodoABB afiliado = afiliados.buscar(CI);
 
 			if (afiliado != null) {
 				return new Retorno(Resultado.OK, afiliado.toString(), afiliado.getRecorridos());
@@ -91,9 +91,9 @@ public class Sistema implements ISistema {
 
 		if (!red.esLleno()) {
 
-			if (red.obtenerVertice(coordX, coordY) != null) {
+			if (red.obtenerVertice(coordX, coordY) == null) {
 
-				if (buscarAfiliado(CIafiliado).resultado != Resultado.OK) {
+				if (buscarAfiliado(CIafiliado).resultado == Resultado.OK) {
 
 					Canalera canalera = new Canalera(chipid, CIafiliado);
 					Punto nuevo = new Punto(coordX, coordY, canalera);
@@ -116,7 +116,7 @@ public class Sistema implements ISistema {
 
 		if (!red.esLleno()) {
 
-			if (red.obtenerVertice(coordX, coordY) != null) {
+			if (red.obtenerVertice(coordX, coordY) == null) {
 
 				Nodo nodo = new Nodo(nodoid);
 				Punto nuevo = new Punto(coordX, coordY, nodo);

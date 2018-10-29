@@ -5,18 +5,16 @@ public class Arista {
 	private boolean existe;
 	private int valor;
 
+	// ================== Construct ==================//
+	public Arista() {
+	}
+
 	public Arista(int valor) {
 		this.existe = true;
 		this.valor = valor;
 	}
 
-	//==================  Construct  ==================//
-	public Arista() {
-		// this.existe = false; INNECESARIO
-		// this.valor = 0; INNECESARIO
-	}
-
-	//==================  Properties  =================//
+	// ================== Properties =================//
 	public boolean isExiste() {
 		return existe;
 	}
@@ -37,7 +35,4 @@ public class Arista {
 	public String toString() {
 		return valor + "";
 	}
-	
-	
-
 }

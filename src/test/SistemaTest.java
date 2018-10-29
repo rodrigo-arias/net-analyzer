@@ -5,13 +5,15 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import dominio.Canalera;
+import grafo.Punto;
 import sistema.Retorno;
 import sistema.Sistema;
 
 public class SistemaTest {
-	
+
 	private Sistema s;
-	
+
 	@Before
 	public void set() throws Exception {
 		s = new Sistema();
@@ -33,10 +35,14 @@ public class SistemaTest {
 
 	@Test
 	public void testRegistrarAfiliado() {
-		assertEquals(Retorno.Resultado.OK, s.registrarAfiliado("5.103.782-1", "Nicolas Hernandez", "nhg1612@gmail.com").resultado);
-		assertEquals(Retorno.Resultado.ERROR_1, s.registrarAfiliado("5.103.7821", "Nicolas Hernandez", "nhg1612@gmail.com").resultado);
-		assertEquals(Retorno.Resultado.ERROR_2, s.registrarAfiliado("5.103.782-1", "Nicolas Hernandez", "nhg1612gmail.com").resultado);
-		assertEquals(Retorno.Resultado.ERROR_3, s.registrarAfiliado("5.103.782-1", "Nicolas Hernandez", "nhg1612@gmail.com").resultado);
+		assertEquals(Retorno.Resultado.OK,
+				s.registrarAfiliado("5.103.782-1", "Nicolas Hernandez", "nhg1612@gmail.com").resultado);
+		assertEquals(Retorno.Resultado.ERROR_1,
+				s.registrarAfiliado("5.103.7821", "Nicolas Hernandez", "nhg1612@gmail.com").resultado);
+		assertEquals(Retorno.Resultado.ERROR_2,
+				s.registrarAfiliado("5.103.782-1", "Nicolas Hernandez", "nhg1612gmail.com").resultado);
+		assertEquals(Retorno.Resultado.ERROR_3,
+				s.registrarAfiliado("5.103.782-1", "Nicolas Hernandez", "nhg1612@gmail.com").resultado);
 	}
 
 	@Test
@@ -57,17 +63,39 @@ public class SistemaTest {
 
 	@Test
 	public void testRegistrarCanalera() {
-		fail("Not yet implemented");
+		assertEquals(Retorno.Resultado.ERROR_1, s.registrarCanalera("ASD123", "5.111.777-8", 2.0, 3.0).resultado);
+
+		s.destruirSistema();
+		s.inicializarSistema(10, 1.0, 2.0);
+		s.registrarAfiliado("5.111.777-8", "Rodrigo Arias", "rodrigoa@gmail.com");
+		assertEquals(Retorno.Resultado.ERROR_2, s.registrarCanalera("ASD123", "5.111.777-8", 1.0, 2.0).resultado);
+		assertEquals(Retorno.Resultado.ERROR_3, s.registrarCanalera("ASD123", "3.455.666-2", 3.0, 4.0).resultado);
+		assertEquals(Retorno.Resultado.OK, s.registrarCanalera("ASD123", "5.111.777-8", 3.0, 4.0).resultado);
 	}
 
 	@Test
 	public void testRegistrarNodo() {
-		fail("Not yet implemented");
+		assertEquals(Retorno.Resultado.ERROR_1, s.registrarNodo("N123", 2.0, 3.0).resultado);
+
+		s.destruirSistema();
+		s.inicializarSistema(10, 1.0, 2.0);
+		assertEquals(Retorno.Resultado.ERROR_2, s.registrarNodo("N123", 1.0, 2.0).resultado);
+		assertEquals(Retorno.Resultado.OK, s.registrarNodo("N123", 3.0, 4.0).resultado);
 	}
 
 	@Test
 	public void testRegistrarTramo() {
-		fail("Not yet implemented");
+		
+		s.destruirSistema();
+		s.inicializarSistema(10, 1.0, 2.0);
+		s.registrarNodo("N123", 3.0, 4.0);
+		s.registrarNodo("N235", 43.0, 2.0);
+		
+		assertEquals(Retorno.Resultado.ERROR_1, s.registrarTramo(3.0, 4.0, 43.0, 2.0, -3).resultado);
+		assertEquals(Retorno.Resultado.ERROR_2, s.registrarTramo(4.0, 4.0, 43.0, 2.0, 2).resultado);
+		assertEquals(Retorno.Resultado.OK, s.registrarTramo(3.0, 4.0, 43.0, 2.0, 2).resultado);
+		assertEquals(Retorno.Resultado.ERROR_3, s.registrarTramo(3.0, 4.0, 43.0, 2.0, 2).resultado);
+		
 	}
 
 	@Test
