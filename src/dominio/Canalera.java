@@ -10,6 +10,9 @@ public class Canalera {
 		this.chipId = chipId;
 		this.CIafiliado = CIafiliado;
 	}
+	
+	public Canalera() {
+	}
 
 	//==================  Properties  =================//
 	public String getChipId() {
@@ -27,5 +30,4 @@ public class Canalera {
 	public void setCIafiliado(String cIafiliado) {
 		CIafiliado = cIafiliado;
 	}
-	
 }

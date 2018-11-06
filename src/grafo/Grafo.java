@@ -1,6 +1,8 @@
 package grafo;
 
 import cola.Cola;
+import dominio.Canalera;
+import dominio.Servidor;
 
 public class Grafo {
 
@@ -14,7 +16,7 @@ public class Grafo {
 		this.tope = tope;
 		this.vertices = new Punto[tope];
 		this.matAdy = new Arista[tope][tope];
-		
+
 		for (int i = 0; i < tope; i++) {
 			for (int j = i; j < tope; j++) {
 				matAdy[i][j] = matAdy[j][i] = new Arista();
@@ -23,6 +25,13 @@ public class Grafo {
 	}
 
 	// =================== Methods ==================//
+	
+	public Punto obtenerServidor() {
+		for (int i = 0; i < tope; i++)
+			if (vertices[i].getElement() instanceof Servidor)
+				return vertices[i];
+		return null;
+	}
 
 	private int posOcupada() {
 		for (int i = 0; i < tope; i++)
@@ -75,7 +84,7 @@ public class Grafo {
 		return -1;
 	}
 
-	private int posVerticeCoord(Double coordX, Double coordY) {
+	public int posVerticeCoord(Double coordX, Double coordY) {
 		for (int i = 0; i < tope; i++)
 			if (vertices[i] != null && vertices[i].getCoordX() == coordX && vertices[i].getCoordY() == coordY)
 				return i;
@@ -169,4 +178,61 @@ public class Grafo {
 			}
 		}
 	}
+
+	public int dijkstra(Punto origen, Punto destino) {
+		int posO = posVertice(origen);
+		int posD = posVertice(destino);
+
+		int[] dist = new int[tope];
+		int[] ant = new int[tope];
+		boolean[] vis = new boolean[tope];
+
+		for (int i = 0; i < tope; i++) {
+			ant[i] = -1;
+			dist[i] = Integer.MAX_VALUE;
+		}
+
+		dijkstraInterno(posO, dist, ant, vis);
+
+		return dist[posD];
+	}
+
+	private void dijkstraInterno(int posO, int[] dist, int[] ant, boolean[] vis) {
+		dist[posO] = 0;
+		vis[posO] = true;
+
+		for (int i = 0; i < tope; i++) {
+			if (matAdy[posO][i].isExiste()) {
+				dist[i] = matAdy[posO][i].getValor();
+				ant[i] = posO;
+			}
+		}
+
+		for (int k = 1; k < tope; k++) {
+			int posCand = -1;
+			int min = Integer.MAX_VALUE;
+			for (int i = 0; i < tope; i++) {
+				if (!vis[i] && dist[i] < min && (this.vertices[i].getElement() instanceof Canalera)) {
+					min = dist[i];
+					posCand = i;
+				}
+			}
+
+			if (posCand == -1)
+				return;
+
+			vis[posCand] = true;
+
+			for (int i = 0; i < tope; i++) {
+				if (!vis[i] && matAdy[posCand][i].isExiste()) {
+					int sumaDist = dist[posCand] + matAdy[posCand][i].getValor();
+					if (sumaDist < dist[i]) {
+						dist[i] = sumaDist;
+						ant[i] = posCand;
+					}
+				}
+			}
+		}
+	}
+
 }

@@ -6,14 +6,14 @@ public class Punto {
 	private double coordY;
 	private Object element;
 
-	//==================  Construct  ==================//
+	// ================== Construct ==================//
 	public Punto(double coordX, double coordY, Object element) {
 		this.coordX = coordX;
 		this.coordY = coordY;
 		this.element = element;
 	}
 
-	//==================  Properties  =================//
+	// ================== Properties =================//
 	public double getCoordX() {
 		return coordX;
 	}
@@ -38,7 +38,7 @@ public class Punto {
 		this.element = element;
 	}
 
-	//===================  Methods  ==================//
+	// =================== Methods ==================//
 	@Override
 	public String toString() {
 		return "[" + coordX + ", " + coordY + "]";
@@ -71,4 +71,6 @@ public class Punto {
 			return false;
 		return true;
 	}
+	
+	
 }

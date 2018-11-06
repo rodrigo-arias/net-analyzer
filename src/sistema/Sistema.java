@@ -176,7 +176,19 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno calidadCanalera(Double coordX, Double coordY) {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+
+		Punto destino = red.obtenerVertice(coordX, coordY);
+		Punto origen = red.obtenerServidor();
+
+		if (destino != null && destino.getElement() instanceof Canalera) {
+			int camino = red.dijkstra(origen, destino);
+			
+			if (camino > 0) {
+				return new Retorno(Resultado.OK, "", camino);
+			} else
+				return new Retorno(Resultado.ERROR_2);
+		} else
+			return new Retorno(Resultado.ERROR_1);
 	}
 
 	@Override

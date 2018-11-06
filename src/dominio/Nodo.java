@@ -1,15 +1,15 @@
 package dominio;
 
 public class Nodo {
-	
+
 	String nodoId;
 
-	//==================  Construct  ==================//
+	// ================== Construct ==================//
 	public Nodo(String nodoId) {
 		this.nodoId = nodoId;
 	}
 
-	//==================  Properties  =================//
+	// ================== Properties =================//
 	public String getNodoId() {
 		return nodoId;
 	}
@@ -17,5 +17,5 @@ public class Nodo {
 	public void setNodoId(String nodoId) {
 		this.nodoId = nodoId;
 	}
-	
+
 }
