@@ -84,7 +84,7 @@ public class Grafo {
 		return -1;
 	}
 
-	public int posVerticeCoord(Double coordX, Double coordY) {
+	private int posVerticeCoord(Double coordX, Double coordY) {
 		for (int i = 0; i < tope; i++)
 			if (vertices[i] != null && vertices[i].getCoordX() == coordX && vertices[i].getCoordY() == coordY)
 				return i;

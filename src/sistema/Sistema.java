@@ -182,7 +182,7 @@ public class Sistema implements ISistema {
 
 		if (destino != null && destino.getElement() instanceof Canalera) {
 			int camino = red.dijkstra(origen, destino);
-			
+
 			if (camino > 0) {
 				return new Retorno(Resultado.OK, "", camino);
 			} else
