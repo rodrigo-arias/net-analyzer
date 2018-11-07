@@ -7,6 +7,11 @@ public class Cola<T> {
 	private int cont;
 
 	//===================  Methods  ==================//
+	
+	public int getCont() {
+		return cont;
+	}
+	
 	public void encolar(T dato) {
 		if (cont == 0) {
 			inicio = fin = new NodoCola<T>(dato);
