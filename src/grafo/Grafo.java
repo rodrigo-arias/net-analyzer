@@ -1,5 +1,8 @@
 package grafo;
 
+import java.awt.Desktop;
+import java.net.URL;
+
 import cola.Cola;
 import dominio.Canalera;
 import dominio.Servidor;
@@ -232,6 +235,27 @@ public class Grafo {
 					}
 				}
 			}
+		}
+	}
+	
+	public void dibujarMapa() {
+		Punto[] retPuntos = this.DFSdesdeNodo(0);
+		String stringURL = "http://maps.googleapis.com/maps/api/staticmap?center=Montevideo,Uruguay&zoom=13&size=1200x600&maptype=roadmap&";
+		if(retPuntos != null) {
+			//Se agrega las coordenadas del servidor con color rojo
+			stringURL = stringURL + "markers=color:red%7Clabel:2%7C" + this.vertices[0].getCoordX() + "," + this.vertices[0].getCoordY() + "&";
+			//Se agregan el resto de los nodos con color azul
+			for(int x = 0; x < retPuntos.length; x++) {
+				if(retPuntos[x] != null) {
+					stringURL = stringURL + "markers=color:blue%7Clabel:2%7C" + retPuntos[x].getCoordX() + "," + retPuntos[x].getCoordY() + "&";
+				}
+			}
+			stringURL = stringURL + "sensor=false&key=AIzaSyC2kHGtzaC3OOyc7Wi1LMBcEwM9btRZLqw";
+		}
+		try {
+		Desktop.getDesktop().browse(new URL(stringURL).toURI());
+		} catch (Exception e) {
+		e.printStackTrace();
 		}
 	}
 
