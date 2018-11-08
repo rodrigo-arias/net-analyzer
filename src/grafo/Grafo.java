@@ -141,6 +141,32 @@ public class Grafo {
 			}
 		}
 	}
+	
+	public String nodoCritico() {
+		String ret = "";
+		for (int i = 0; i < tope; i++) {
+			boolean[] vis = new boolean[tope];
+			if (vertices[i] != null && vertices[i] instanceof Nodo) {
+				vis[i] = true;
+				DFSRec(0, vis);
+				boolean esNodoCri = false;
+
+				for (int j = 0; j < vis.length && !esNodoCri; j++) {
+					if (vertices[j] != null && vertices[j] instanceof Nodo && !vis[j]) {
+						esNodoCri = true;
+						ret += vertices[j].getCoordX() + ";" + vertices[j].getCoordY() + "|";
+
+					}
+				}
+
+			}
+
+			if (!ret.isEmpty()) {
+				ret = ret.substring(0, ret.length() - 1);
+			}
+		}
+		return ret;
+	}
 
 	private void DFSRec(int pos, boolean[] vis) {
 		vis[pos] = true;
