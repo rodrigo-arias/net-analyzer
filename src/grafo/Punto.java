@@ -4,13 +4,11 @@ public class Punto {
 
 	private double coordX;
 	private double coordY;
-	private Object element;
 
 	// ================== Construct ==================//
-	public Punto(double coordX, double coordY, Object element) {
+	public Punto(double coordX, double coordY) {
 		this.coordX = coordX;
 		this.coordY = coordY;
-		this.element = element;
 	}
 
 	// ================== Properties =================//
@@ -28,14 +26,6 @@ public class Punto {
 
 	public void setCoordY(double coordY) {
 		this.coordY = coordY;
-	}
-
-	public Object getElement() {
-		return element;
-	}
-
-	public void setElement(Object element) {
-		this.element = element;
 	}
 
 	// =================== Methods ==================//

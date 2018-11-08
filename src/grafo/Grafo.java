@@ -2,6 +2,7 @@ package grafo;
 
 import cola.Cola;
 import dominio.Canalera;
+import dominio.Nodo;
 import dominio.Servidor;
 
 public class Grafo {
@@ -25,10 +26,10 @@ public class Grafo {
 	}
 
 	// =================== Methods ==================//
-	
+
 	public Punto obtenerServidor() {
 		for (int i = 0; i < tope; i++)
-			if (vertices[i].getElement() instanceof Servidor)
+			if (vertices[i] instanceof Servidor)
 				return vertices[i];
 		return null;
 	}
@@ -143,7 +144,7 @@ public class Grafo {
 
 	private void DFSRec(int pos, boolean[] vis) {
 		vis[pos] = true;
-		System.out.println(vertices[pos]);
+		// System.out.println(vertices[pos]);
 		for (int i = 0; i < tope; i++) {
 			if (!vis[i] && matAdy[pos][i].isExiste()) {
 				DFSRec(i, vis);
@@ -212,7 +213,7 @@ public class Grafo {
 			int posCand = -1;
 			int min = Integer.MAX_VALUE;
 			for (int i = 0; i < tope; i++) {
-				if (!vis[i] && dist[i] < min && (this.vertices[i].getElement() instanceof Canalera)) {
+				if (!vis[i] && dist[i] < min && (this.vertices[i] instanceof Canalera)) {
 					min = dist[i];
 					posCand = i;
 				}

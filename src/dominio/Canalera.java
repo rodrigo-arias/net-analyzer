@@ -1,20 +1,20 @@
 package dominio;
 
-public class Canalera {
-	
+import grafo.Punto;
+
+public class Canalera extends Punto {
+
 	String chipId;
 	String CIafiliado;
 
-	//==================  Construct  ==================//
-	public Canalera(String chipId, String CIafiliado) {
+	// ================== Construct ==================//
+	public Canalera(double coordX, double coordY, String chipId, String CIafiliado) {
+		super(coordX, coordY);
 		this.chipId = chipId;
 		this.CIafiliado = CIafiliado;
 	}
-	
-	public Canalera() {
-	}
 
-	//==================  Properties  =================//
+	// ================== Properties =================//
 	public String getChipId() {
 		return chipId;
 	}

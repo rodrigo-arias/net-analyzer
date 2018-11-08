@@ -1,11 +1,14 @@
 package dominio;
 
-public class Nodo {
+import grafo.Punto;
+
+public class Nodo extends Punto{
 
 	String nodoId;
 
 	// ================== Construct ==================//
-	public Nodo(String nodoId) {
+	public Nodo(double coordX, double coordY, String nodoId) {
+		super(coordX, coordY);
 		this.nodoId = nodoId;
 	}
 

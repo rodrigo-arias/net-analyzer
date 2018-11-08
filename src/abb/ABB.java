@@ -1,7 +1,5 @@
 package abb;
 
-import cola.Cola;
-import cola.NodoCola;
 import dominio.Afiliado;
 
 public class ABB {
@@ -63,38 +61,22 @@ public class ABB {
 		}
 	}
 
-	public void listarAscendente() {
-		listarAscendenteRec(raiz);
-		System.out.println();
+	public String listarAscendente() {
+		StringBuilder listado = new StringBuilder();
+		listarAscendenteRec(raiz, listado);
+		return listado.toString().substring(0, listado.length() - 1);
 	}
 
-	private void listarAscendenteRec(NodoABB nodo) {
+	private StringBuilder listarAscendenteRec(NodoABB nodo, StringBuilder listado) {
 		if (nodo != null) {
-			listarAscendenteRec(nodo.getIzq());
-			System.out.println(nodo.getDato().toString());
-			listarAscendenteRec(nodo.getDer());
-		}
-	}
-	
-	public String listarAscendenteString() {
-		String retString = "";
-		Cola<String> colaNodos = new Cola<String>();
-		listarAscendenteStringRec(raiz, colaNodos);
-		String auxCola = (String) colaNodos.desencolar();
-		while(auxCola != "") {
-			retString = retString + auxCola + "|";
-			if(colaNodos.getCont() > 0) auxCola = (String) colaNodos.desencolar(); else auxCola = "";
-		}
-		if(retString.length() > 0) retString = retString.substring(0, retString.length() - 1);
-		return retString;
-	}
+			listarAscendenteRec(nodo.getIzq(), listado);
 
-	private void listarAscendenteStringRec(NodoABB nodo, Cola<String> colaNodos) {
-		if (nodo != null) {
-			listarAscendenteStringRec(nodo.getIzq(), colaNodos);
-			colaNodos.encolar(nodo.getDato().toString());
-			listarAscendenteStringRec(nodo.getDer(), colaNodos);
+			listado.append(nodo.getDato());
+			listado.append("|");
+
+			listarAscendenteRec(nodo.getDer(), listado);
 		}
+		return listado;
 	}
 
 	public void listarDescendente() {

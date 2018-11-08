@@ -25,7 +25,7 @@ public class Sistema implements ISistema {
 			red = new Grafo(maxPuntos);
 			afiliados = new ABB();
 
-			Punto servidor = new Punto(coordX, coordY, new Servidor());
+			Servidor servidor = new Servidor(coordX, coordY);
 			red.agregarVertice(servidor);
 
 			return new Retorno(Resultado.OK);
@@ -82,9 +82,7 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno listarAfiliados() {
-		Retorno ret = new Retorno(Resultado.OK);
-		ret.valorString = afiliados.listarAscendenteString();
-		return ret;
+		return new Retorno(Resultado.OK, afiliados.listarAscendente(), 0);
 	}
 
 	@Override
@@ -96,10 +94,9 @@ public class Sistema implements ISistema {
 
 				if (buscarAfiliado(CIafiliado).resultado == Resultado.OK) {
 
-					Canalera canalera = new Canalera(chipid, CIafiliado);
-					Punto nuevo = new Punto(coordX, coordY, canalera);
+					Canalera canalera = new Canalera(coordX, coordY, chipid, CIafiliado);
 
-					red.agregarVertice(nuevo);
+					red.agregarVertice(canalera);
 
 					return new Retorno(Resultado.OK);
 				} else
@@ -119,10 +116,9 @@ public class Sistema implements ISistema {
 
 			if (red.obtenerVertice(coordX, coordY) == null) {
 
-				Nodo nodo = new Nodo(nodoid);
-				Punto nuevo = new Punto(coordX, coordY, nodo);
+				Nodo nodo = new Nodo(coordX, coordY, nodoid);
 
-				red.agregarVertice(nuevo);
+				red.agregarVertice(nodo);
 
 				return new Retorno(Resultado.OK);
 
@@ -181,7 +177,7 @@ public class Sistema implements ISistema {
 		Punto destino = red.obtenerVertice(coordX, coordY);
 		Punto origen = red.obtenerServidor();
 
-		if (destino != null && destino.getElement() instanceof Canalera) {
+		if (destino != null && destino instanceof Canalera) {
 			int camino = red.dijkstra(origen, destino);
 
 			if (camino > 0) {
@@ -194,7 +190,7 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno nodosCriticos() {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+		return new Retorno(Resultado.OK, red.nodoCritico(), 0);
 	}
 
 	@Override
