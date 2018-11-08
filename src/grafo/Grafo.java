@@ -142,33 +142,35 @@ public class Grafo {
 	}
 
 	public String nodoCritico() {
-		String ret = "";
+		String nodos = "";
+
 		for (int i = 0; i < tope; i++) {
 			boolean[] vis = new boolean[tope];
+
 			if (vertices[i] != null && vertices[i] instanceof Nodo) {
 				vis[i] = true;
 				DFSRec(0, vis);
-				boolean esNodoCri = false;
+				boolean critico = false;
 
-				for (int j = 0; j < vis.length && !esNodoCri; j++) {
+				for (int j = 0; j < vis.length && !critico; j++) {
+
 					if (vertices[j] != null && vertices[j] instanceof Nodo && !vis[j]) {
-						esNodoCri = true;
-						ret += vertices[j].getCoordX() + ";" + vertices[j].getCoordY() + "|";
-
+						critico = true;
+						nodos += vertices[i].getCoordX() + ";" + vertices[i].getCoordY() + "|";
 					}
 				}
-
 			}
 		}
-		if (!ret.isEmpty()) {
-			ret = ret.substring(0, ret.length() - 1);
+
+		if (!nodos.isEmpty()) {
+			nodos = nodos.substring(0, nodos.length() - 1);
 		}
-		return ret;
+		return nodos;
 	}
 
 	private void DFSRec(int pos, boolean[] vis) {
 		vis[pos] = true;
-		// System.out.println(vertices[pos]);
+
 		for (int i = 0; i < tope; i++) {
 			if (!vis[i] && matAdy[pos][i].isExiste()) {
 				DFSRec(i, vis);
