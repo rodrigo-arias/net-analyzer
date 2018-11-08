@@ -4,6 +4,7 @@ import dominio.Afiliado;
 
 public class NodoABB {
 
+	// ================== Attributes =================//
 	private Afiliado dato;
 	private NodoABB izq;
 	private NodoABB der;

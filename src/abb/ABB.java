@@ -4,8 +4,9 @@ import dominio.Afiliado;
 
 public class ABB {
 
+	// ================== Attributes =================//
 	private NodoABB raiz;
-
+	
 	// ================== Construct ==================//
 	public ABB() {
 		this.raiz = null;

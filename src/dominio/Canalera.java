@@ -4,6 +4,7 @@ import grafo.Punto;
 
 public class Canalera extends Punto {
 
+	// ================== Attributes =================//
 	String chipId;
 	String CIafiliado;
 

@@ -26,7 +26,7 @@ public class Sistema implements ISistema {
 			afiliados = new ABB();
 
 			Servidor servidor = new Servidor(coordX, coordY);
-			red.agregarVertice(servidor);
+			red.addVertice(servidor);
 
 			return new Retorno(Resultado.OK);
 		}
@@ -88,15 +88,15 @@ public class Sistema implements ISistema {
 	@Override
 	public Retorno registrarCanalera(String chipid, String CIafiliado, Double coordX, Double coordY) {
 
-		if (!red.esLleno()) {
+		if (!red.isFull()) {
 
-			if (red.obtenerVertice(coordX, coordY) == null) {
+			if (red.getVertice(coordX, coordY) == null) {
 
 				if (buscarAfiliado(CIafiliado).resultado == Resultado.OK) {
 
 					Canalera canalera = new Canalera(coordX, coordY, chipid, CIafiliado);
 
-					red.agregarVertice(canalera);
+					red.addVertice(canalera);
 
 					return new Retorno(Resultado.OK);
 				} else
@@ -112,13 +112,13 @@ public class Sistema implements ISistema {
 	@Override
 	public Retorno registrarNodo(String nodoid, Double coordX, Double coordY) {
 
-		if (!red.esLleno()) {
+		if (!red.isFull()) {
 
-			if (red.obtenerVertice(coordX, coordY) == null) {
+			if (red.getVertice(coordX, coordY) == null) {
 
 				Nodo nodo = new Nodo(coordX, coordY, nodoid);
 
-				red.agregarVertice(nodo);
+				red.addVertice(nodo);
 
 				return new Retorno(Resultado.OK);
 
@@ -133,13 +133,13 @@ public class Sistema implements ISistema {
 	public Retorno registrarTramo(Double coordXi, Double coordYi, Double coordXf, Double coordYf, int perdidaCalidad) {
 
 		if (perdidaCalidad >= 1) {
-			Punto origen = red.obtenerVertice(coordXi, coordYi);
-			Punto destino = red.obtenerVertice(coordXf, coordYf);
+			Punto origen = red.getVertice(coordXi, coordYi);
+			Punto destino = red.getVertice(coordXf, coordYf);
 
 			if (origen != null && destino != null) {
-				if (!red.existeArista(origen, destino)) {
+				if (!red.isArista(origen, destino)) {
 
-					red.agregarArista(origen, destino, perdidaCalidad);
+					red.addArista(origen, destino, perdidaCalidad);
 
 					return new Retorno(Resultado.OK);
 				} else
@@ -156,12 +156,12 @@ public class Sistema implements ISistema {
 
 		if (nuevoValorPerdidaCalidad >= 1) {
 
-			Punto origen = red.obtenerVertice(coordXi, coordYi);
-			Punto destino = red.obtenerVertice(coordXf, coordYf);
+			Punto origen = red.getVertice(coordXi, coordYi);
+			Punto destino = red.getVertice(coordXf, coordYf);
 
-			if (origen != null && destino != null && red.existeArista(origen, destino)) {
+			if (origen != null && destino != null && red.isArista(origen, destino)) {
 
-				red.modificarArista(coordXi, coordYi, coordXf, coordYf, nuevoValorPerdidaCalidad);
+				red.updateArista(coordXi, coordYi, coordXf, coordYf, nuevoValorPerdidaCalidad);
 
 				return new Retorno(Resultado.OK);
 
@@ -174,8 +174,8 @@ public class Sistema implements ISistema {
 	@Override
 	public Retorno calidadCanalera(Double coordX, Double coordY) {
 
-		Punto destino = red.obtenerVertice(coordX, coordY);
-		Punto origen = red.obtenerServidor();
+		Punto destino = red.getVertice(coordX, coordY);
+		Punto origen = red.getVertice(0);
 
 		if (destino != null && destino instanceof Canalera) {
 			int camino = red.dijkstra(origen, destino);

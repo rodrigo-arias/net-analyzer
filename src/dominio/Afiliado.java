@@ -2,6 +2,7 @@ package dominio;
 
 public class Afiliado {
 
+	// ================== Attributes =================//
 	private String cedula;
 	private String nombre;
 	private String email;

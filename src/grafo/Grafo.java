@@ -2,14 +2,15 @@ package grafo;
 
 import java.awt.Desktop;
 import java.net.URL;
-import com.sun.xml.internal.ws.util.StringUtils;
 
 import cola.Cola;
 import dominio.Canalera;
+import dominio.Nodo;
 import dominio.Servidor;
 
 public class Grafo {
 
+	// ================== Attributes =================//
 	private Punto[] vertices;
 	private Arista[][] matAdy;
 	private int tope;
@@ -28,94 +29,36 @@ public class Grafo {
 		}
 	}
 
-	// =================== Methods ==================//
-
-	public Punto obtenerServidor() {
-		for (int i = 0; i < tope; i++)
-			if (vertices[i].getElement() instanceof Servidor)
-				return vertices[i];
-		return null;
+	// ==================== Grafo ===================//
+	public boolean isFull() {
+		return cantidad == tope;
 	}
 
-	private int posOcupada() {
-		for (int i = 0; i < tope; i++)
-			if (vertices[i] != null)
-				return i;
-		return -1;
-	}
+	// =================== Vertice ==================//
 
-	private int posLibre() {
-		for (int i = 0; i < tope; i++)
-			if (vertices[i] == null)
-				return i;
-		return -1;
-	}
-
-	// Pre: !existeVertice(ver) && !esLleno()
-	public void agregarVertice(Punto ver) {
-		int pos = posLibre();
+	// Pre: !isVertice(ver) && !isFull()
+	public void addVertice(Punto ver) {
+		int pos = getEmptyVertice();
 		vertices[pos] = ver;
 		cantidad++;
 	}
 
-	// Pre: existeVertice(origen) && existeVertice(destino) &&
-	// !existeArista(origen, destino)
-	public void agregarArista(Punto origen, Punto destino, int peso) {
-		int posOrigen = posVertice(origen);
-		int posDestino = posVertice(destino);
-
-		matAdy[posOrigen][posDestino].setExiste(true);
-		matAdy[posOrigen][posDestino].setValor(peso);
-	}
-
-	public void modificarArista(Double origenX, Double origenY, Double destinoX, Double destinoY, int peso) {
-		int posOrigen = posVerticeCoord(origenX, origenY);
-		int posDestino = posVerticeCoord(destinoX, destinoY);
-
-		if (matAdy[posOrigen][posDestino].isExiste()) {
-			matAdy[posOrigen][posDestino].setValor(peso);
-		}
-	}
-
-	public boolean esLleno() {
-		return cantidad == tope;
-	}
-
-	private int posVertice(Punto ver) {
-		for (int i = 0; i < tope; i++)
-			if (ver.equals(vertices[i]))
-				return i;
-		return -1;
-	}
-
-	private int posVerticeCoord(Double coordX, Double coordY) {
-		for (int i = 0; i < tope; i++)
-			if (vertices[i] != null && vertices[i].getCoordX() == coordX && vertices[i].getCoordY() == coordY)
-				return i;
-		return -1;
-	}
-
-	public boolean existeVertice(Punto ver) {
-		return posVertice(ver) != -1;
-	}
-
-	public Punto obtenerVertice(double coordX, double coordY) {
-
-		int pos = posVerticeCoord(coordX, coordY);
-
+	public Punto getVertice(double coordX, double coordY) {
+		int pos = indexVertice(coordX, coordY);
 		return (pos != -1) ? vertices[pos] : null;
 	}
 
-	public boolean existeArista(Punto origen, Punto destino) {
-		int posOrigen = posVertice(origen);
-		int posDestino = posVertice(destino);
-
-		return matAdy[posOrigen][posDestino].isExiste();
+	public Punto getVertice(int pos) {
+		return vertices[pos];
 	}
 
-	// Pre: existeVertice(ver)
-	public void borrarVertice(Punto ver) {
-		int pos = posVertice(ver);
+	public boolean isVertice(Punto ver) {
+		return indexVertice(ver) != -1;
+	}
+
+	// Pre: isVertice(ver)
+	public void deleteVertice(Punto ver) {
+		int pos = indexVertice(ver);
 
 		vertices[pos] = null;
 
@@ -125,17 +68,75 @@ public class Grafo {
 		}
 	}
 
-	public void borrarArista(Punto origen, Punto destino) {
-		int posOrigen = posVertice(origen);
-		int posDestino = posVertice(destino);
+	private int indexVertice(Punto ver) {
+		for (int i = 0; i < tope; i++)
+			if (ver.equals(vertices[i]))
+				return i;
+		return -1;
+	}
+
+	private int indexVertice(Double coordX, Double coordY) {
+		for (int i = 0; i < tope; i++)
+			if (vertices[i] != null && vertices[i].getCoordX() == coordX && vertices[i].getCoordY() == coordY)
+				return i;
+		return -1;
+	}
+
+	private int getBusyVertice() {
+		for (int i = 0; i < tope; i++)
+			if (vertices[i] != null)
+				return i;
+		return -1;
+	}
+
+	private int getEmptyVertice() {
+		for (int i = 0; i < tope; i++)
+			if (vertices[i] == null)
+				return i;
+		return -1;
+	}
+
+	// =================== Arista ===================//
+
+	// Pre: isVertice(origen) && isVertice(destino) &&
+	// !isArista(origen, destino)
+	public void addArista(Punto origen, Punto destino, int peso) {
+		int posOrigen = indexVertice(origen);
+		int posDestino = indexVertice(destino);
+
+		matAdy[posOrigen][posDestino].setExiste(true);
+		matAdy[posOrigen][posDestino].setValor(peso);
+	}
+
+	public void updateArista(Double origenX, Double origenY, Double destinoX, Double destinoY, int peso) {
+		int posOrigen = indexVertice(origenX, origenY);
+		int posDestino = indexVertice(destinoX, destinoY);
+
+		if (matAdy[posOrigen][posDestino].isExiste()) {
+			matAdy[posOrigen][posDestino].setValor(peso);
+		}
+	}
+
+	public boolean isArista(Punto origen, Punto destino) {
+		int posOrigen = indexVertice(origen);
+		int posDestino = indexVertice(destino);
+
+		return matAdy[posOrigen][posDestino].isExiste();
+	}
+
+	public void deleteArista(Punto origen, Punto destino) {
+		int posOrigen = indexVertice(origen);
+		int posDestino = indexVertice(destino);
 
 		matAdy[posOrigen][posDestino].setExiste(false);
 		matAdy[posDestino][posOrigen].setExiste(false);
 	}
 
+	// ================== Recorrido =================//
+
 	public void DFS() {
 		boolean[] vis = new boolean[tope];
-		int pos = posOcupada();
+		int pos = getBusyVertice();
 		if (pos != -1) {
 			for (int i = 0; i < tope; i++) {
 				if (!vis[i] && vertices[i] != null) {
@@ -144,6 +145,46 @@ public class Grafo {
 			}
 		}
 	}
+
+	private void DFSRec(int pos, boolean[] vis) {
+		vis[pos] = true;
+
+		for (int i = 0; i < tope; i++) {
+			if (!vis[i] && matAdy[pos][i].isExiste()) {
+				DFSRec(i, vis);
+			}
+		}
+	}
+
+	public void BFS() {
+		boolean[] vis = new boolean[tope];
+		int pos = getBusyVertice();
+		if (pos != -1) {
+			for (int i = 0; i < tope; i++) {
+				if (!vis[i] && vertices[i] != null) {
+					BFSRec(i, vis);
+				}
+			}
+		}
+	}
+
+	private void BFSRec(int pos, boolean[] vis) {
+		Cola<Integer> cola = new Cola<Integer>();
+		vis[pos] = true;
+		cola.encolar(pos);
+		while (!cola.esVacia()) {
+			int posNueva = cola.desencolar();
+			System.out.println(vertices[posNueva]);
+			for (int i = 0; i < tope; i++) {
+				if (!vis[i] && matAdy[posNueva][i].isExiste()) {
+					vis[i] = true;
+					cola.encolar(i);
+				}
+			}
+		}
+	}
+
+	// ==================== Nodos ===================//
 
 	public String nodoCritico() {
 		String nodos = "";
@@ -172,47 +213,11 @@ public class Grafo {
 		return nodos;
 	}
 
-	private void DFSRec(int pos, boolean[] vis) {
-		vis[pos] = true;
-
-		for (int i = 0; i < tope; i++) {
-			if (!vis[i] && matAdy[pos][i].isExiste()) {
-				DFSRec(i, vis);
-			}
-		}
-	}
-
-	public void BFS() {
-		boolean[] vis = new boolean[tope];
-		int pos = posOcupada();
-		if (pos != -1) {
-			for (int i = 0; i < tope; i++) {
-				if (!vis[i] && vertices[i] != null) {
-					BFSRec(i, vis);
-				}
-			}
-		}
-	}
-
-	private void BFSRec(int pos, boolean[] vis) {
-		Cola<Integer> cola = new Cola<Integer>();
-		vis[pos] = true;
-		cola.encolar(pos);
-		while (!cola.esVacia()) {
-			int posNueva = cola.desencolar();
-			System.out.println(vertices[posNueva]);
-			for (int i = 0; i < tope; i++) {
-				if (!vis[i] && matAdy[posNueva][i].isExiste()) {
-					vis[i] = true;
-					cola.encolar(i);
-				}
-			}
-		}
-	}
+	// =================== Dijkstra =================//
 
 	public int dijkstra(Punto origen, Punto destino) {
-		int posO = posVertice(origen);
-		int posD = posVertice(destino);
+		int posO = indexVertice(origen);
+		int posD = indexVertice(destino);
 
 		int[] dist = new int[tope];
 		int[] ant = new int[tope];
@@ -243,7 +248,7 @@ public class Grafo {
 			int posCand = -1;
 			int min = Integer.MAX_VALUE;
 			for (int i = 0; i < tope; i++) {
-				if (!vis[i] && dist[i] < min && (this.vertices[i].getElement() instanceof Canalera)) {
+				if (!vis[i] && dist[i] < min) {
 					min = dist[i];
 					posCand = i;
 				}
@@ -266,6 +271,8 @@ public class Grafo {
 		}
 	}
 
+	// =================== Auxiliar =================//
+
 	String repeatString(String s, int n) {
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < n; i++) {
@@ -285,9 +292,9 @@ public class Grafo {
 		for (int i = 0; i < tope; i++) {
 			if (vertices[i] != null) {
 
-				if (vertices[i].getElement() instanceof Servidor) {
+				if (vertices[i] instanceof Servidor) {
 					color = "red";
-				} else if (vertices[i].getElement() instanceof Canalera) {
+				} else if (vertices[i] instanceof Canalera) {
 					color = "blue";
 				} else {
 					color = "white";
@@ -306,8 +313,4 @@ public class Grafo {
 			e.printStackTrace();
 		}
 	}
-
-	String map = "http://maps.googleapis.com/maps/api/staticmap?center=Montevideo,Uruguay&zoom=13&size=1200x600&maptype=roadmap&"
-			+ "markers=color:%7Clabel:2%7C-34.910913,-56.19537&markers=color:%7Clabel:2%7C-34.909039,-56.19553&markers=color:%7Clabel:2%7C-34.908951,-56.1945&markers=color:%7Clabel:2%7C-34.90888,-56.193299&markers=color:%7Clabel:2%7C-34.90991,-56.194372&mark";
-
 }

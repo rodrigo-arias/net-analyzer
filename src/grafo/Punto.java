@@ -2,6 +2,7 @@ package grafo;
 
 public class Punto {
 
+	// ================== Attributes =================//
 	private double coordX;
 	private double coordY;
 

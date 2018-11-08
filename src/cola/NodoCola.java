@@ -2,6 +2,7 @@ package cola;
 
 public class NodoCola<T> {
 	
+	// ================== Attributes =================//
 	private T dato;
 	private NodoCola<T> sig;
 

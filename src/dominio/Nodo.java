@@ -4,6 +4,7 @@ import grafo.Punto;
 
 public class Nodo extends Punto{
 
+	// ================== Attributes =================//
 	String nodoId;
 
 	// ================== Construct ==================//

@@ -2,6 +2,7 @@ package cola;
 
 public class Cola<T> {
 
+	// ================== Attributes =================//
 	private NodoCola<T> inicio;
 	private NodoCola<T> fin;
 	private int cont;

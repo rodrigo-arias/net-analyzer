@@ -2,6 +2,7 @@ package grafo;
 
 public class Arista {
 
+	// ================== Attributes =================//
 	private boolean existe;
 	private int valor;
 
