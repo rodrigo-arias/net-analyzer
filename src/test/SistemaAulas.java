@@ -465,28 +465,24 @@ public class SistemaAulas {
 		assertEquals(Retorno.Resultado.OK, sistema.registrarTramo(-5.0, -5.0, -51.0, -51.0, 1).resultado);// N5-C51
 
 	}
+	
+	@Test
+	public void testMapa() {
+		ISistema sistema = new Sistema();
+		sistema.inicializarSistema(20, -34.910913, -56.195370);
 
-	/*
-	 * @Test public void testMapa() { ISistema sistema = new Sistema();
-	 * sistema.inicializarSistema(20, -34.910913, -56.195370);
-	 * 
-	 * assertEquals(Retorno.Resultado.OK,
-	 * sistema.registrarAfiliado("5.555.555-5", "Omar",
-	 * "omar@gmail.com").resultado);
-	 * 
-	 * assertEquals(Retorno.Resultado.OK, sistema.registrarNodo("N1",
-	 * -34.909039, -56.195530).resultado); assertEquals(Retorno.Resultado.OK,
-	 * sistema.registrarNodo("N2", -34.908951, -56.194500).resultado);
-	 * 
-	 * assertEquals(Retorno.Resultado.OK, sistema.registrarCanalera("C11",
-	 * "5.555.555-5", -34.908880, -56.193299).resultado);
-	 * assertEquals(Retorno.Resultado.OK, sistema.registrarCanalera("C12",
-	 * "5.555.555-5", -34.909910, -56.194372).resultado);
-	 * assertEquals(Retorno.Resultado.OK, sistema.registrarCanalera("N21",
-	 * "5.555.555-5", -34.909813, -56.193202).resultado);
-	 * 
-	 * 
-	 * 
-	 * assertEquals(Retorno.Resultado.OK, sistema.dibujarMapa().resultado); }
-	 */
+		assertEquals(Retorno.Resultado.OK, sistema.registrarAfiliado("5.555.555-5", "Omar", "omar@gmail.com").resultado);
+
+		assertEquals(Retorno.Resultado.OK, sistema.registrarNodo("N1", -34.909039, -56.195530).resultado);
+		assertEquals(Retorno.Resultado.OK, sistema.registrarNodo("N2", -34.908951, -56.194500).resultado);
+
+		assertEquals(Retorno.Resultado.OK, sistema.registrarCanalera("C11", "5.555.555-5", -34.908880, -56.193299).resultado);
+		assertEquals(Retorno.Resultado.OK, sistema.registrarCanalera("C12", "5.555.555-5", -34.909910, -56.194372).resultado);
+		assertEquals(Retorno.Resultado.OK, sistema.registrarCanalera("N21", "5.555.555-5", -34.909813, -56.193202).resultado);
+
+
+
+		assertEquals(Retorno.Resultado.OK, sistema.dibujarMapa().resultado);
+	}
+
 }
