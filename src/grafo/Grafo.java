@@ -213,7 +213,7 @@ public class Grafo {
 			int posCand = -1;
 			int min = Integer.MAX_VALUE;
 			for (int i = 0; i < tope; i++) {
-				if (!vis[i] && dist[i] < min && (this.vertices[i] instanceof Canalera)) {
+				if (!vis[i] && dist[i] < min) {
 					min = dist[i];
 					posCand = i;
 				}
