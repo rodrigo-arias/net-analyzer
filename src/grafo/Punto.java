@@ -32,7 +32,11 @@ public class Punto {
 	// =================== Methods ==================//
 	@Override
 	public String toString() {
-		return "[" + coordX + ", " + coordY + "]";
+		return coordX + ";" + coordY;
+	}
+	
+	public String toString(String delimiter) {
+		return coordX + delimiter + coordY;
 	}
 
 	@Override

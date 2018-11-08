@@ -23,7 +23,7 @@ public class ABB {
 
 	// =================== Methods ==================//
 	public NodoABB buscar(String dato) {
-		return buscarRec(dato, raiz, 0);
+		return buscarRec(dato, raiz, 1);
 	}
 
 	private NodoABB buscarRec(String dato, NodoABB nodo, int recorridos) {
@@ -36,9 +36,9 @@ public class ABB {
 				nodo.setRecorridos(recorridos);
 				return nodo;
 			} else if (compare < 0) {
-				return buscarRec(dato, nodo.getIzq(), recorridos++);
+				return buscarRec(dato, nodo.getIzq(), recorridos+1);
 			} else {
-				return buscarRec(dato, nodo.getDer(), recorridos++);
+				return buscarRec(dato, nodo.getDer(), recorridos+1);
 			}
 		}
 	}

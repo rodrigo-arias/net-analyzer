@@ -139,9 +139,14 @@ public class Sistema implements ISistema {
 			if (origen != null && destino != null) {
 				if (!red.isArista(origen, destino)) {
 
-					red.addArista(origen, destino, perdidaCalidad);
+					if (origen instanceof Servidor && destino instanceof Canalera
+							|| origen instanceof Canalera && destino instanceof Servidor) {
 
-					return new Retorno(Resultado.OK);
+						return new Retorno(Resultado.ERROR_4);
+					} else {
+						red.addArista(origen, destino, perdidaCalidad);
+						return new Retorno(Resultado.OK);
+					}
 				} else
 					return new Retorno(Resultado.ERROR_3);
 			} else
@@ -162,7 +167,6 @@ public class Sistema implements ISistema {
 			if (origen != null && destino != null && red.isArista(origen, destino)) {
 
 				red.updateArista(coordXi, coordYi, coordXf, coordYf, nuevoValorPerdidaCalidad);
-
 				return new Retorno(Resultado.OK);
 
 			} else

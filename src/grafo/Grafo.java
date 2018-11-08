@@ -201,7 +201,7 @@ public class Grafo {
 
 					if (vertices[j] != null && vertices[j] instanceof Nodo && !vis[j]) {
 						critico = true;
-						nodos += vertices[i].getCoordX() + ";" + vertices[i].getCoordY() + "|";
+						nodos += vertices[i].toString() + "|";
 					}
 				}
 			}
@@ -275,6 +275,7 @@ public class Grafo {
 
 	String repeatString(String s, int n) {
 		StringBuilder builder = new StringBuilder();
+		
 		for (int i = 0; i < n; i++) {
 			builder.append(s);
 		}
@@ -283,8 +284,7 @@ public class Grafo {
 
 	public void dibujarMapa() {
 
-		String url = "http://maps.googleapis.com/maps/api/staticmap?center=" + vertices[0].getCoordX() + ","
-				+ vertices[0].getCoordY() + "&zoom=15&size=1200x600&maptype=roadmap&";
+		String url = "http://maps.googleapis.com/maps/api/staticmap?center=" + vertices[0].toString(",") + "&zoom=15&size=1200x600&maptype=roadmap&";
 		String color = "";
 		String decano = "DECANO";
 		String cientoveinteanosdeverdad = repeatString(decano, Math.round(tope / decano.length()) + 1);
@@ -300,8 +300,7 @@ public class Grafo {
 					color = "white";
 				}
 
-				url += "markers=color:" + color + "%7Clabel:" + cientoveinteanosdeverdad.charAt(i) + "%7C"
-						+ vertices[i].getCoordX() + "," + vertices[i].getCoordY() + "&";
+				url += "markers=color:" + color + "%7Clabel:" + cientoveinteanosdeverdad.charAt(i) + "%7C" + vertices[i].toString(",") + "&";
 			}
 		}
 
