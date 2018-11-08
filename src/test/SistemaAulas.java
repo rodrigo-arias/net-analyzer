@@ -120,7 +120,7 @@ public class SistemaAulas {
 		String cedula = "3.702.156-2";
 		String nombre = "Omar";
 		String email = "omar@gmail.com";
-		String celular = "098123456";
+		//String celular = "098123456";
 
 		Retorno ret = sistema.registrarAfiliado(cedula, nombre, email);
 		assertEquals(Retorno.Resultado.OK, ret.resultado);

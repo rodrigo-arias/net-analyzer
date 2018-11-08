@@ -1,7 +1,6 @@
 package grafo;
 
 import cola.Cola;
-import dominio.Canalera;
 import dominio.Nodo;
 import dominio.Servidor;
 
@@ -141,7 +140,7 @@ public class Grafo {
 			}
 		}
 	}
-	
+
 	public String nodoCritico() {
 		String ret = "";
 		for (int i = 0; i < tope; i++) {
@@ -160,10 +159,9 @@ public class Grafo {
 				}
 
 			}
-
-			if (!ret.isEmpty()) {
-				ret = ret.substring(0, ret.length() - 1);
-			}
+		}
+		if (!ret.isEmpty()) {
+			ret = ret.substring(0, ret.length() - 1);
 		}
 		return ret;
 	}
@@ -239,7 +237,7 @@ public class Grafo {
 			int posCand = -1;
 			int min = Integer.MAX_VALUE;
 			for (int i = 0; i < tope; i++) {
-				if (!vis[i] && dist[i] < min && (this.vertices[i] instanceof Canalera)) {
+				if (!vis[i] && dist[i] < min) {
 					min = dist[i];
 					posCand = i;
 				}
