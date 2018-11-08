@@ -400,8 +400,6 @@ public class SistemaAulas {
 			
 	}
 	
-	
-	/*
 	@Test
 	public void testMapa() {
 		ISistema sistema = new Sistema();
@@ -420,5 +418,5 @@ public class SistemaAulas {
 		
 		assertEquals(Retorno.Resultado.OK, sistema.dibujarMapa().resultado);
 	}
-	*/
+	
 }

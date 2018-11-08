@@ -3,6 +3,8 @@ package grafo;
 import java.awt.Desktop;
 import java.net.URL;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
 import cola.Cola;
 import dominio.Canalera;
 import dominio.Servidor;
@@ -28,7 +30,7 @@ public class Grafo {
 	}
 
 	// =================== Methods ==================//
-	
+
 	public Punto obtenerServidor() {
 		for (int i = 0; i < tope; i++)
 			if (vertices[i].getElement() instanceof Servidor)
@@ -146,7 +148,6 @@ public class Grafo {
 
 	private void DFSRec(int pos, boolean[] vis) {
 		vis[pos] = true;
-		System.out.println(vertices[pos]);
 		for (int i = 0; i < tope; i++) {
 			if (!vis[i] && matAdy[pos][i].isExiste()) {
 				DFSRec(i, vis);
@@ -237,26 +238,49 @@ public class Grafo {
 			}
 		}
 	}
-	
-	public void dibujarMapa() {
-		Punto[] retPuntos = this.DFSdesdeNodo(0);
-		String stringURL = "http://maps.googleapis.com/maps/api/staticmap?center=Montevideo,Uruguay&zoom=13&size=1200x600&maptype=roadmap&";
-		if(retPuntos != null) {
-			//Se agrega las coordenadas del servidor con color rojo
-			stringURL = stringURL + "markers=color:red%7Clabel:2%7C" + this.vertices[0].getCoordX() + "," + this.vertices[0].getCoordY() + "&";
-			//Se agregan el resto de los nodos con color azul
-			for(int x = 0; x < retPuntos.length; x++) {
-				if(retPuntos[x] != null) {
-					stringURL = stringURL + "markers=color:blue%7Clabel:2%7C" + retPuntos[x].getCoordX() + "," + retPuntos[x].getCoordY() + "&";
-				}
-			}
-			stringURL = stringURL + "sensor=false&key=AIzaSyC2kHGtzaC3OOyc7Wi1LMBcEwM9btRZLqw";
+
+	String repeatString(String s, int n) {
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < n; i++) {
+			builder.append(s);
 		}
+		return builder.toString();
+	}
+
+	public void dibujarMapa() {
+
+		String url = "http://maps.googleapis.com/maps/api/staticmap?center=" + vertices[0].getCoordX() + ","
+				+ vertices[0].getCoordY() + "&zoom=15&size=1200x600&maptype=roadmap&";
+		String color = "";
+		String decano = "DECANO";
+		String cientoveinteanosdeverdad = repeatString(decano, Math.round(tope / decano.length()) + 1);
+
+		for (int i = 0; i < tope; i++) {
+			if (vertices[i] != null) {
+
+				if (vertices[i].getElement() instanceof Servidor) {
+					color = "red";
+				} else if (vertices[i].getElement() instanceof Canalera) {
+					color = "blue";
+				} else {
+					color = "white";
+				}
+
+				url += "markers=color:" + color + "%7Clabel:" + cientoveinteanosdeverdad.charAt(i) + "%7C"
+						+ vertices[i].getCoordX() + "," + vertices[i].getCoordY() + "&";
+			}
+		}
+
+		url += "sensor=false&key=AIzaSyC2kHGtzaC3OOyc7Wi1LMBcEwM9btRZLqw";
+
 		try {
-		Desktop.getDesktop().browse(new URL(stringURL).toURI());
+			Desktop.getDesktop().browse(new URL(url).toURI());
 		} catch (Exception e) {
-		e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
+
+	String map = "http://maps.googleapis.com/maps/api/staticmap?center=Montevideo,Uruguay&zoom=13&size=1200x600&maptype=roadmap&"
+			+ "markers=color:%7Clabel:2%7C-34.910913,-56.19537&markers=color:%7Clabel:2%7C-34.909039,-56.19553&markers=color:%7Clabel:2%7C-34.908951,-56.1945&markers=color:%7Clabel:2%7C-34.90888,-56.193299&markers=color:%7Clabel:2%7C-34.90991,-56.194372&mark";
 
 }

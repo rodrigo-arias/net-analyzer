@@ -198,9 +198,8 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno dibujarMapa() {
-		Retorno ret = new Retorno(Resultado.OK);
-		this.red.dibujarMapa();
-		return ret;
+		red.dibujarMapa();
+		return new Retorno(Resultado.OK);
 	}
 
 }
