@@ -2,7 +2,6 @@ package grafo;
 
 import java.awt.Desktop;
 import java.net.URL;
-
 import cola.Cola;
 import dominio.Canalera;
 import dominio.Nodo;
@@ -106,6 +105,7 @@ public class Grafo {
 
 		matAdy[posOrigen][posDestino].setExiste(true);
 		matAdy[posOrigen][posDestino].setValor(peso);
+		matAdy[posOrigen][posDestino].setHabilitado(true);
 	}
 
 	public void updateArista(Double origenX, Double origenY, Double destinoX, Double destinoY, int peso) {
@@ -122,6 +122,21 @@ public class Grafo {
 		int posDestino = indexVertice(destino);
 
 		return matAdy[posOrigen][posDestino].isExiste();
+	}
+
+	public boolean isEnabledArista(Punto origen, Punto destino) {
+		int posOrigen = indexVertice(origen);
+		int posDestino = indexVertice(destino);
+
+		return matAdy[posOrigen][posDestino].isHabilitado();
+	}
+
+	// Pre: isArista(origen, destino) && !isEnabledArista(origen, destino)
+	public void disableArista(Punto origen, Punto destino) {
+		int posOrigen = indexVertice(origen);
+		int posDestino = indexVertice(destino);
+
+		matAdy[posOrigen][posDestino].setHabilitado(false);
 	}
 
 	public void deleteArista(Punto origen, Punto destino) {
@@ -260,7 +275,7 @@ public class Grafo {
 			vis[posCand] = true;
 
 			for (int i = 0; i < tope; i++) {
-				if (!vis[i] && matAdy[posCand][i].isExiste()) {
+				if (!vis[i] && matAdy[posCand][i].isExiste() && matAdy[posCand][i].isHabilitado()) {
 					int sumaDist = dist[posCand] + matAdy[posCand][i].getValor();
 					if (sumaDist < dist[i]) {
 						dist[i] = sumaDist;
@@ -275,7 +290,7 @@ public class Grafo {
 
 	String repeatString(String s, int n) {
 		StringBuilder builder = new StringBuilder();
-		
+
 		for (int i = 0; i < n; i++) {
 			builder.append(s);
 		}
@@ -284,7 +299,8 @@ public class Grafo {
 
 	public void dibujarMapa() {
 
-		String url = "http://maps.googleapis.com/maps/api/staticmap?center=" + vertices[0].toString(",") + "&zoom=15&size=1200x600&maptype=roadmap&";
+		String url = "http://maps.googleapis.com/maps/api/staticmap?center=" + vertices[0].toString(",")
+				+ "&zoom=15&size=1200x600&maptype=roadmap&";
 		String color = "";
 		String decano = "DECANO";
 		String cientoveinteanosdeverdad = repeatString(decano, Math.round(tope / decano.length()) + 1);
@@ -300,7 +316,8 @@ public class Grafo {
 					color = "white";
 				}
 
-				url += "markers=color:" + color + "%7Clabel:" + cientoveinteanosdeverdad.charAt(i) + "%7C" + vertices[i].toString(",") + "&";
+				url += "markers=color:" + color + "%7Clabel:" + cientoveinteanosdeverdad.charAt(i) + "%7C"
+						+ vertices[i].toString(",") + "&";
 			}
 		}
 

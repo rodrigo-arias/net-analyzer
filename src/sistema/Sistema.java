@@ -203,4 +203,24 @@ public class Sistema implements ISistema {
 		return new Retorno(Resultado.OK);
 	}
 
+	@Override
+	public Retorno deshabilitarTramo(Double coordXi, Double coordYi, Double coordXf, Double coordYf) {
+
+		Punto origen = red.getVertice(coordXi, coordYi);
+		Punto destino = red.getVertice(coordXf, coordYf);
+
+		if (origen != null && destino != null) {
+
+			if (red.isArista(origen, destino)) {
+
+				if (red.isEnabledArista(origen, destino)) {
+					red.disableArista(origen, destino);
+					return new Retorno(Resultado.OK);
+				} else
+					return new Retorno(Resultado.ERROR_3);
+			} else
+				return new Retorno(Resultado.ERROR_2);
+		} else
+			return new Retorno(Resultado.ERROR_1);
+	}
 }

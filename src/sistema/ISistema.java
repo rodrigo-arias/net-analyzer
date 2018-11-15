@@ -27,4 +27,6 @@ public interface ISistema {
 	Retorno nodosCriticos();
 
 	Retorno dibujarMapa();
+
+	Retorno deshabilitarTramo(Double coordXi, Double coordYi, Double coordXf, Double coordYf);
 }

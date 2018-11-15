@@ -120,7 +120,7 @@ public class SistemaAulas {
 		String cedula = "3.702.156-2";
 		String nombre = "Omar";
 		String email = "omar@gmail.com";
-		// String celular = "098123456";
+		String celular = "098123456";
 
 		Retorno ret = sistema.registrarAfiliado(cedula, nombre, email);
 		assertEquals(Retorno.Resultado.OK, ret.resultado);
@@ -410,6 +410,46 @@ public class SistemaAulas {
 		r = sistema.calidadCanalera(-51.0, -51.0);
 		assertEquals(Retorno.Resultado.OK, r.resultado);
 		assertEquals(12, r.valorEntero);
+	}
+
+	@Test
+	public void testDeshabilitarTramoError() {
+		ISistema sistema = new Sistema();
+		sistema.inicializarSistema(20, 0.0, 0.0);
+		armarMapa(sistema);
+
+		// Deshabilito dos veces el mismo tramo
+		assertEquals(Retorno.Resultado.OK, sistema.deshabilitarTramo(-3.0, -3.0, -1.0, -1.0).resultado);
+		assertEquals(Retorno.Resultado.ERROR_3, sistema.deshabilitarTramo(-3.0, -3.0, -1.0, -1.0).resultado);
+		// Deshabilito un tramo entre puntos que no existen
+		assertEquals(Retorno.Resultado.ERROR_1, sistema.deshabilitarTramo(-9.0, -10.0, -11.0, -12.0).resultado);
+		// Deshabilito un tramo que no existe
+		assertEquals(Retorno.Resultado.ERROR_2, sistema.deshabilitarTramo(-4.0, -4.0, -5.0, -5.0).resultado);
+	}
+
+	@Test
+	public void testCalidadCanaleraDeshabilitarTramo() {
+		ISistema sistema = new Sistema();
+		sistema.inicializarSistema(20, 0.0, 0.0);
+		armarMapa(sistema);
+		// Canalera 42
+		Retorno r = sistema.calidadCanalera(-42.0, -42.0);
+		assertEquals(Retorno.Resultado.OK, r.resultado);
+		assertEquals(16, r.valorEntero);
+		// Canalera 51
+		r = sistema.calidadCanalera(-51.0, -51.0);
+		assertEquals(Retorno.Resultado.OK, r.resultado);
+		assertEquals(14, r.valorEntero);
+		// Deshabilito los tramos N2-N3
+		assertEquals(Retorno.Resultado.OK, sistema.deshabilitarTramo(-2.0, -2.0, -3.0, -3.0).resultado);
+		// Canalera 42
+		r = sistema.calidadCanalera(-42.0, -42.0);
+		assertEquals(Retorno.Resultado.OK, r.resultado);
+		assertEquals(19, r.valorEntero);
+		// Canalera 51
+		r = sistema.calidadCanalera(-51.0, -51.0);
+		assertEquals(Retorno.Resultado.OK, r.resultado);
+		assertEquals(14, r.valorEntero);
 	}
 
 	@Test
